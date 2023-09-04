@@ -1,0 +1,9 @@
+{
+  "buyList": [
+    {
+      "id": 1,
+      "product": "pão",
+      "price": 21.8
+    }
+  ] 
+}
