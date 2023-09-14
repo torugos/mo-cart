@@ -5,5 +5,37 @@
       "product": "pão",
       "price": 21.8
     }
-  ] 
+  ],
+  "cartList": [
+    {
+      "listId": 1,
+      "products": [
+        {
+          "productId": 1,
+          "name": "pão",
+          "price": 5.9
+        },
+        {
+          "productId": 2,
+          "name": "sabonete",
+          "price": 1.99
+        }
+      ]
+    },
+    {
+      "listId": 2,
+      "products": [
+        {
+          "productId": 1,
+          "name": "baguete",
+          "price": 7.9
+        },
+        {
+          "productId": 2,
+          "name": "detergente",
+          "price": 3.5
+        }
+      ]
+    }
+  ]
 }

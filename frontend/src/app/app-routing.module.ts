@@ -9,10 +9,6 @@ const routes: Routes = [
   {
     path: 'cart-list',
     loadChildren: () => import('./cart-list/cart-list.module').then( m => m.CartListPageModule)
-  },
-  {
-    path: 'cart-list-modal',
-    loadChildren: () => import('./cart-list/cart-list-modal/cart-list-modal.module').then( m => m.CartListModalPageModule)
   }
 ];
 
