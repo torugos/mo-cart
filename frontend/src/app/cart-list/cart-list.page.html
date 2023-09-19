@@ -63,7 +63,7 @@
           >
         </div>
         <div class="center">
-          <ion-button shape="round">Incluir</ion-button>
+          <ion-button shape="round" (click)="saveAdd()">Incluir</ion-button>
         </div>
       </ion-content>
     </ng-template>
@@ -104,6 +104,6 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ion-title>Total da Compra: {{total}}</ion-title>
+    <ion-title>Total da Compra: {{total | currency:'BRL'}}</ion-title>
   </ion-toolbar>
 </ion-footer>

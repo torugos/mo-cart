@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CartList } from 'src/app/models/cart-list.model';
@@ -13,24 +13,34 @@ export class CartListService {
 
   constructor(public http: HttpClient) { }
   
-  getListById(id: number) : Observable<CartList[]>{
-    return this.http.get<CartList[]>(`${this.baseUrl}/?listId=${id}`)
+  getListById(id: number) : Observable<CartList>{
+    return this.http.get<CartList>(`${this.baseUrl}/${id}`)
   }
 
-  // deleteById(productsArray: CartList) {
-  //   return this.http.(`${this.baseUrl}/${id}`)
-  // }
+  getAllLists() : Observable<CartList[]>{
+    return this.http.get<CartList[]>(this.baseUrl)
+  }
 
-  // getListTeste(id: string){
-  //   return this.http.get(this.baseUrl, id)
-  // }
-
-  updateCartList(listId: number, cartList: Products[]){
-    let obj: CartList = {
-      listId: listId,
+  updateCartList(listId: number, cartList: Products[]): Observable<HttpResponse<boolean>>{
+    let obj = {
       products: cartList
     }
+    return this.http.put<HttpResponse<boolean>>(`${this.baseUrl}/${listId}`, obj)
+  }
 
-    return this.http.post(`${this.baseUrl}/?listId=${listId}`, obj)
+  insertCartList(listId: number, cartList: Products[], product: Products): Observable<HttpResponse<boolean>>{
+    const newProduct = [...cartList, product] 
+
+    let obj = {
+      products: newProduct
+    }
+    return this.http.put<HttpResponse<boolean>>(`${this.baseUrl}/${listId}`, obj)
+  }
+
+  deleteCartProduct(listId: number, cartList: Products[]): Observable<HttpResponse<boolean>>{
+    let obj = {
+      products: cartList
+    }
+    return this.http.put<HttpResponse<boolean>>(`${this.baseUrl}/${listId}`, obj)
   }
 }

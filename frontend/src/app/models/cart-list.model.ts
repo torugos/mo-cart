@@ -1,6 +1,9 @@
+import { Time } from "@angular/common";
 import { Products } from "./products.model";
 
 export interface CartList {
-    listId: number;
+    id: number;
+    listName: string;
+    dateTime: Time;
     products: Products[];
 }

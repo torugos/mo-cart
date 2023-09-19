@@ -7,7 +7,7 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
   {
-    path: 'cart-list',
+    path: 'cart-list/:id',
     loadChildren: () => import('./cart-list/cart-list.module').then( m => m.CartListPageModule)
   }
 ];

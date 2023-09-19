@@ -13,7 +13,21 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-button color="danger" [routerLink]="'/cart-list'">Go to cart</ion-button>
-  <!-- <ion-nav-link router-direction="forward" > -->
-  <!-- </ion-nav-link> -->
+  <ion-grid>
+    <ion-row>
+      <!-- Use *ngFor para iterar sobre o array e criar um ion-card para cada item -->
+      <ion-col class="custom-col" *ngFor="let item of lista">
+        <ion-card [routerLink]="['/cart-list', item.id]">
+          <!-- Conteúdo do ion-card para cada item -->
+          <ion-card-header>
+            <ion-card-title>Lista #{{item.id}}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-card-subtitle>subtitulo</ion-card-subtitle>
+            <p>description</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

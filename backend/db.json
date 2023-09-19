@@ -1,14 +1,6 @@
 {
-  "buyList": [
-    {
-      "id": 1,
-      "product": "pão",
-      "price": 21.8
-    }
-  ],
   "cartList": [
     {
-      "listId": 1,
       "products": [
         {
           "productId": 1,
@@ -17,13 +9,38 @@
         },
         {
           "productId": 2,
-          "name": "sabonete",
+          "name": "sabonetao",
           "price": 1.99
+        },
+        {
+          "productId": 3,
+          "name": "mamao",
+          "price": 3.99
+        },
+        {
+          "productId": 6,
+          "name": "banana",
+          "price": 5.6
+        },
+        {
+          "productId": 7,
+          "name": "Facao",
+          "price": 50.99
+        },
+        {
+          "productId": 8,
+          "name": "majoba",
+          "price": 62.34
+        },
+        {
+          "productId": 9,
+          "name": "baguetinha",
+          "price": 5.7
         }
-      ]
+      ],
+      "id": 1
     },
     {
-      "listId": 2,
       "products": [
         {
           "productId": 1,
@@ -34,8 +51,14 @@
           "productId": 2,
           "name": "detergente",
           "price": 3.5
+        },
+        {
+          "productId": 3,
+          "name": "panetone",
+          "price": 27.8
         }
-      ]
+      ],
+      "id": 2
     }
   ]
 }
