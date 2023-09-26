@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Home
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -13,12 +13,10 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-grid>
+  <!-- <ion-grid>
     <ion-row>
-      <!-- Use *ngFor para iterar sobre o array e criar um ion-card para cada item -->
       <ion-col class="custom-col" *ngFor="let item of lista">
         <ion-card [routerLink]="['/cart-list', item.id]">
-          <!-- Conteúdo do ion-card para cada item -->
           <ion-card-header>
             <ion-card-title>Lista #{{item.id}}</ion-card-title>
           </ion-card-header>
@@ -29,5 +27,19 @@
         </ion-card>
       </ion-col>
     </ion-row>
-  </ion-grid>
+  </ion-grid> -->
+
+  <swiper-container [loop]="true">
+    <swiper-slide *ngFor="let item of lista">
+      <ion-card [routerLink]="['/cart-list', item.id]">
+        <ion-card-header>
+          <ion-card-title>Lista #{{item.id}}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-card-subtitle>subtitulo</ion-card-subtitle>
+          <p>description</p>
+        </ion-card-content>
+      </ion-card>
+    </swiper-slide>
+  </swiper-container>
 </ion-content>

@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CartListService } from 'src/shared/services/cartList.service';
 import { Products } from '../models/products.model';
-import axios, { AxiosResponse } from 'axios';
 import { AlertService } from 'src/shared/services/alert.service';
-import { HttpResponse } from '@capacitor/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
