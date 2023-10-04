@@ -12,6 +12,8 @@
     <ion-row class="table-header table-row">
       <ion-col>Produto</ion-col>
       <ion-col>Preço</ion-col>
+      <ion-col>Quantidade</ion-col>
+      <ion-col>Ações</ion-col>
     </ion-row>
     
     <ion-row *ngFor="let item of lista" class="table-row mat-elevation-z8">
@@ -23,6 +25,11 @@
         <ion-item>
           <ion-col>{{item.name}}</ion-col>
           <ion-col>{{item.price | currency:'BRL'}}</ion-col>
+          <ion-col>{{item.qtd}}{{item.unidade}}</ion-col>
+          <ion-col>
+            <ion-icon name="add-outline" (click)="teste()"></ion-icon>
+            <ion-icon name="remove-outline" (click)="teste()"></ion-icon>
+          </ion-col>
         </ion-item>
   
         <ion-item-options side="end">

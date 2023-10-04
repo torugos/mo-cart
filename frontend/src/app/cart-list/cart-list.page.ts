@@ -47,6 +47,10 @@ export class CartListPage implements OnInit {
 
   }
 
+  teste(){
+    console.log("clicou")
+  }
+
   getSavedList() {
     this.cartListService.getSavedList().subscribe(
       (list) => {
@@ -130,7 +134,9 @@ export class CartListPage implements OnInit {
     let obj: Products = {
       productId: max + 1,
       name: this.addProduct,
-      price: this.addPrice
+      price: this.addPrice,
+      qtd: 0,
+      unidade: ''
     }
 
     this.cartListService.insertCartList(this.idList, this.lista, obj).subscribe(
