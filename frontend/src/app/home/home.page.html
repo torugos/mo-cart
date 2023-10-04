@@ -1,45 +1,94 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Home
+      <ion-icon name="home"></ion-icon> Home
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-title style="padding-top: 8px;">Listas de Compras</ion-title>
 
-  <!-- <ion-grid>
-    <ion-row>
-      <ion-col class="custom-col" *ngFor="let item of lista">
-        <ion-card [routerLink]="['/cart-list', item.id]">
-          <ion-card-header>
-            <ion-card-title>Lista #{{item.id}}</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <ion-card-subtitle>subtitulo</ion-card-subtitle>
-            <p>description</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid> -->
-
-  <swiper-container [loop]="true">
+  <swiper-container slides-per-view="3" navigation="true" pagination="true" class="mat-elevation-z8">
     <swiper-slide *ngFor="let item of lista">
-      <ion-card [routerLink]="['/cart-list', item.id]">
-        <ion-card-header>
-          <ion-card-title>Lista #{{item.id}}</ion-card-title>
+      <ion-card>
+        <ion-card-header class="action-buttons">
+          <ion-card-title class="vertical-align">
+            <span>{{item.listName}}</span>
+          </ion-card-title>
         </ion-card-header>
+        
         <ion-card-content>
-          <ion-card-subtitle>subtitulo</ion-card-subtitle>
-          <p>description</p>
+          <ion-card-subtitle class="space-between">{{item.dateTime | date:"dd/MM/yyyy HH:mm"}} <span>#{{item.id}}</span></ion-card-subtitle>
+          <ion-buttons class="center">
+            <ion-button color="primary" [routerLink]="['/cart-list', item.id]">
+              <span>Abrir</span> 
+              <ion-icon name="open-outline"></ion-icon>
+            </ion-button>
+            <ion-button title="editar nome">
+              <ion-icon name="create-outline"></ion-icon>
+            </ion-button>
+            <ion-button color="danger" (click)="deleteList(item.id)" title="deletar">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
         </ion-card-content>
       </ion-card>
     </swiper-slide>
   </swiper-container>
+
+  <ion-button expand="block" style="margin-left: 10px; margin-right: 10px;" (click)="setOpen(true)">Cria nova lista</ion-button>
+
+  <hr/>
+
+  <ion-title style="padding-top: 8px;">Lista de Compras pré salva</ion-title>
+
+  <ion-button> Teste</ion-button>
+
+
+
+
+
+
+
+
+  <!-- Modal de nova lista -->
+  <ion-modal [isOpen]="isModalOpen" [backdropDismiss]="false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Nova Lista</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false)">Fechar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <div class="center">
+          <input type="text" class="custom-input" placeholder="Nome da Lista" [(ngModel)]="nomeLista">
+          <ion-datetime-button datetime="datetime" style="pointer-events:none; margin-top: 4px;"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime id="datetime"  locale="pt-BR"></ion-datetime>
+            </ng-template>
+          </ion-modal>
+        </div>
+      </ion-content>
+
+      <ion-footer class="center">
+        <ion-toolbar class="center">
+            <ion-button class="center" (click)="createList()">Criar</ion-button>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>  
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar style="text-align: end;">
+    <ion-title>
+      Todos os direitos reservados ©Torugos <ion-icon name="logo-github"></ion-icon>.
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

@@ -1,4 +1,14 @@
 {
+  "savedList": [
+    {
+      "id": 1,
+      "name": "pão"
+    },
+    {
+      "id": 2,
+      "name": "presunto"
+    }
+  ],
   "cartList": [
     {
       "products": [
@@ -28,16 +38,18 @@
           "price": 50.99
         },
         {
-          "productId": 8,
-          "name": "majoba",
-          "price": 62.34
-        },
-        {
           "productId": 9,
           "name": "baguetinha",
           "price": 5.7
+        },
+        {
+          "productId": 10,
+          "name": "presunto",
+          "price": 4.4
         }
       ],
+      "dateTime": "2023-09-28T18:29:28.012Z",
+      "listName": "lista1",
       "id": 1
     },
     {
@@ -45,20 +57,47 @@
         {
           "productId": 1,
           "name": "baguete",
-          "price": 7.9
+          "price": 7.9,
+          "qtd" : 1,
+          "unidade" : "un"
         },
         {
           "productId": 2,
           "name": "detergente",
-          "price": 3.5
+          "price": 3.5,
+          "qtd" : 1,
+          "unidade" : "un"
         },
         {
           "productId": 3,
           "name": "panetone",
-          "price": 27.8
+          "price": 27.8,
+          "qtd" : 1,
+          "unidade" : "un"
+        },
+        {
+          "productId": 4,
+          "name": "presunto",
+          "price": 5.50,
+          "qtd" : 100,
+          "unidade": "gr"
         }
       ],
-      "id": 2
+      "id": 2,
+      "dateTime": "2023-09-28T18:29:28.012Z",
+      "listName": "lista2"
+    },
+    {
+      "listName": "Lista do sonda",
+      "dateTime": "2023-09-28T18:46:10.035Z",
+      "products": [],
+      "id": 5
+    },
+    {
+      "listName": "joanin terça feira",
+      "dateTime": "2023-09-28T20:49:03.225Z",
+      "products": [],
+      "id": 6
     }
   ]
 }

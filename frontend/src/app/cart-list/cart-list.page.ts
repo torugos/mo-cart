@@ -3,6 +3,8 @@ import { CartListService } from 'src/shared/services/cartList.service';
 import { Products } from '../models/products.model';
 import { AlertService } from 'src/shared/services/alert.service';
 import { ActivatedRoute } from '@angular/router';
+import { MenuController } from '@ionic/angular';
+import { SavedList } from '../models/saved-list.model';
 
 @Component({
   selector: 'app-cart-list',
@@ -17,26 +19,47 @@ export class CartListPage implements OnInit {
     private cartListService: CartListService) { }
   
   public lista: Products[] = [];
-  private idList: number = Number(this.route.snapshot.paramMap.get('id')); 
+  public savedList: SavedList[] = [];
   public total: string = '';
+  private idList: number = Number(this.route.snapshot.paramMap.get('id')); 
 
   //Add config
   public isAddModalOpen = false;
-  public addPrice!: number;
+  public addPrice: number | null = null;
   public addProduct: string = '';
   
   //Edit config
   public isEditModalOpen = false;
-  public editPrice: number = 0;
-  public editProductId: number = 0;
+  public editPrice: number | null = null;
+  public editProductId: number | null = null;
   public editProduct: string = '';
 
   ngOnInit() {
     this.getAllList();
+    this.getSavedList();
   }
 
-  setAddOpen(isOpen: boolean){this.isAddModalOpen = isOpen;}
   setEditOpen(isOpen: boolean){this.isEditModalOpen = isOpen;}
+  setAddOpen(isOpen: boolean){
+    this.isAddModalOpen = isOpen;
+    this.addProduct = '';
+    this.addPrice = null;
+
+  }
+
+  getSavedList() {
+    this.cartListService.getSavedList().subscribe(
+      (list) => {
+        console.log(list)
+        this.savedList = list;
+      }
+    )
+  }
+
+  itemAdd(teste: string){
+    this.setAddOpen(true);
+    this.addProduct = teste;
+  }
 
   private getAllList() {
     this.cartListService.getListById(this.idList).subscribe(
