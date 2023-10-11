@@ -10,14 +10,14 @@
   <ion-title style="padding-top: 8px;">Listas de Compras</ion-title>
 
   <swiper-container slides-per-view="3" navigation="true" pagination="true" class="mat-elevation-z8">
-    <swiper-slide *ngFor="let item of lista">
+    <swiper-slide *ngFor="let item of lista, let i = index">
       <ion-card>
         <ion-card-header class="action-buttons">
-          <ion-card-title class="vertical-align">
+          <ion-card-title class="vertical-align" id="top-center">
             <span>{{item.listName}}</span>
           </ion-card-title>
         </ion-card-header>
-        
+
         <ion-card-content>
           <ion-card-subtitle class="space-between">{{item.dateTime | date:"dd/MM/yyyy HH:mm"}} <span>#{{item.id}}</span></ion-card-subtitle>
           <ion-buttons class="center">
@@ -25,13 +25,38 @@
               <span>Abrir</span> 
               <ion-icon name="open-outline"></ion-icon>
             </ion-button>
-            <ion-button title="editar nome">
+            <ion-button title="editar nome" side="top" alignment="center">
               <ion-icon name="create-outline"></ion-icon>
             </ion-button>
             <ion-button color="danger" (click)="deleteList(item.id)" title="deletar">
               <ion-icon name="trash-outline"></ion-icon>
             </ion-button>
           </ion-buttons>
+
+          <ion-popover *ngIf="isPopoverOpen[i]" [isOpen]="isPopoverOpen[i]">
+            <ng-template>
+              <ion-list>
+                <ion-item>
+                  <ion-label>Conteúdo do Popover</ion-label>
+                  <!-- Adicione o conteúdo do popover aqui, como um campo de entrada para o novo nome -->
+                </ion-item>
+              </ion-list>
+              <ion-button (click)="fecharPopover(i)" color="danger">Fechar</ion-button>
+            </ng-template>
+          </ion-popover>
+
+          <!-- popover para editar nome -->
+        <!-- <ion-popover [isOpen]="isPopoverOpen[i]">
+          <ng-template>
+            <app-popover-content >
+              <input
+                type="text"
+                class="custom-input"
+                [value]="item.listName">
+              <ion-button (click)="fecharPopover()" color="danger">Fechar</ion-button>
+            </app-popover-content>
+          </ng-template>
+        </ion-popover> -->
         </ion-card-content>
       </ion-card>
     </swiper-slide>
@@ -44,13 +69,6 @@
   <ion-title style="padding-top: 8px;">Lista de Compras pré salva</ion-title>
 
   <ion-button> Teste</ion-button>
-
-
-
-
-
-
-
 
   <!-- Modal de nova lista -->
   <ion-modal [isOpen]="isModalOpen" [backdropDismiss]="false">

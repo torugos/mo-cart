@@ -26,6 +26,28 @@ export class HomePage implements OnInit {
     this.getAllLists();
   }
 
+  // isPopoverOpen: boolean[];
+  isPopoverOpen: boolean[] = Array(this.lista.length).fill(false);
+
+  abrirPopover(event : Event, index: number) {
+    // Fechar todos os popovers abertos anteriormente
+    this.fecharTodosPopovers();
+    console.log(event, index)
+
+    // Abrir o popover associado ao índice clicado
+    this.isPopoverOpen[index] = true;
+  }
+
+  fecharPopover(index: number) {
+    // Fechar o popover associado ao índice clicado
+    this.isPopoverOpen[index] = false;
+  }
+
+  fecharTodosPopovers() {
+    // Fechar todos os popovers
+    this.isPopoverOpen.fill(false);
+  }
+
   private getAllLists() {
     this.cartListService.getAllLists().subscribe(
       (response) => {

@@ -10,10 +10,11 @@
 <ion-content [fullscreen]="true" id="main-content">
   <ion-grid style="width: 90%;">
     <ion-row class="table-header table-row">
-      <ion-col>Produto</ion-col>
-      <ion-col>Preço</ion-col>
-      <ion-col>Quantidade</ion-col>
-      <ion-col>Ações</ion-col>
+      <ion-col >Produto</ion-col>
+      <ion-col >Un/Kg</ion-col>
+      <ion-col >Preço</ion-col>
+      <ion-col size="2">Quantidade</ion-col>
+      <ion-col size="3" class="center">Ações</ion-col>
     </ion-row>
     
     <ion-row *ngFor="let item of lista" class="table-row mat-elevation-z8">
@@ -24,11 +25,20 @@
 
         <ion-item>
           <ion-col>{{item.name}}</ion-col>
-          <ion-col>{{item.price | currency:'BRL'}}</ion-col>
-          <ion-col>{{item.qtd}}{{item.unidade}}</ion-col>
           <ion-col>
-            <ion-icon name="add-outline" (click)="teste()"></ion-icon>
-            <ion-icon name="remove-outline" (click)="teste()"></ion-icon>
+            <span *ngIf="item.unidade == 'un'">{{item.price | currency:'BRL'}}/un</span>
+            <span *ngIf="item.unidade == 'gr'">{{item.price * 1000 | currency:'BRL'}}/Kg</span>
+          </ion-col>
+          <ion-col>
+            <span *ngIf="item.unidade == 'un'">{{item.price * item.qtd | currency:'BRL'}}</span>
+            <span *ngIf="item.unidade == 'gr'">{{item.price * item.qtd | currency:'BRL'}}</span>
+          </ion-col>
+          <ion-col size="2">{{item.qtd}}{{item.unidade}}</ion-col>
+          <ion-col size="3">
+            <ion-buttons style="flex-flow: row;" class="center">
+              <ion-fab-button color="primary" style="margin-right: 8px;"><ion-icon name="add-outline" (click)="plusOne(item.productId, item.qtd)"></ion-icon></ion-fab-button>
+              <ion-fab-button color="danger"><ion-icon name="remove-outline" (click)="minusOne(item.productId, item.qtd)"></ion-icon></ion-fab-button>  
+            </ion-buttons>
           </ion-col>
         </ion-item>
   
@@ -75,7 +85,7 @@
     </ion-header>
     
     <ion-content class="ion-content-center">
-      <div class="center">
+      <div class="center-modal">
         <input type="text" class="custom-input" placeholder="Produto" [(ngModel)]="addProduct">
         <input
           type="text"
@@ -83,8 +93,16 @@
           placeholder="Preço"
           currencyMask
           [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
-          [(ngModel)]="addPrice"
-        >
+          [(ngModel)]="addPrice">
+        <div class="center" style="flex-direction: row; display: flex;">
+          <input style="width: 25%;" type="text" min="0" class="custom-input" placeholder="Quantidade" [(ngModel)]="addQtd" required>
+          <ion-item>
+            <ion-select interface="popover" placeholder="Unidade" [(ngModel)]="addUn">
+              <ion-select-option value="un">Unidade</ion-select-option>
+              <ion-select-option value="gr">Grama</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
       </div>
       <div class="center">
         <ion-button shape="round" (click)="saveAdd()">Incluir</ion-button>
@@ -106,7 +124,7 @@
     </ion-header>
     
     <ion-content class="ion-content-center">
-      <div class="center">
+      <div class="center-modal">
         <input type="text" class="custom-input" placeholder="Produto" [(ngModel)]="editProduct">
         <input
           type="text"
@@ -114,8 +132,16 @@
           placeholder="Preço"
           currencyMask
           [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
-          [(ngModel)]="editPrice"
-        >
+          [(ngModel)]="editPrice">
+        <div class="center" style="flex-direction: row; display: flex;">
+          <input style="width: 25%;" type="text" min="0" class="custom-input" placeholder="Quantidade" [(ngModel)]="editQtd" required>
+          <ion-item>
+            <ion-select interface="popover" placeholder="Unidade" [(ngModel)]="editUn">
+              <ion-select-option value="un">Unidade</ion-select-option>
+              <ion-select-option value="gr">Grama</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
       </div>
       <div class="center">
         <ion-button shape="round" (click)="saveEdit()">Editar</ion-button>

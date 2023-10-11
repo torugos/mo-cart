@@ -58,34 +58,41 @@
           "productId": 1,
           "name": "baguete",
           "price": 7.9,
-          "qtd" : 1,
-          "unidade" : "un"
+          "qtd": 6,
+          "unidade": "un"
         },
         {
           "productId": 2,
           "name": "detergente",
           "price": 3.5,
-          "qtd" : 1,
-          "unidade" : "un"
+          "qtd": 5,
+          "unidade": "un"
         },
         {
           "productId": 3,
           "name": "panetone",
           "price": 27.8,
-          "qtd" : 1,
-          "unidade" : "un"
+          "qtd": 5,
+          "unidade": "un"
         },
         {
           "productId": 4,
           "name": "presunto",
-          "price": 5.50,
-          "qtd" : 100,
+          "price": 0.06153846153846154,
+          "qtd": 117,
+          "unidade": "gr"
+        },
+        {
+          "productId": 5,
+          "name": "queijo",
+          "price": 0.12300000000000001,
+          "qtd": 146,
           "unidade": "gr"
         }
       ],
       "id": 2,
       "dateTime": "2023-09-28T18:29:28.012Z",
-      "listName": "lista2"
+      "listName": "lista dois"
     },
     {
       "listName": "Lista do sonda",

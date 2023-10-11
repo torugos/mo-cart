@@ -26,7 +26,7 @@ export class CartListService {
     let obj = {
       products: cartList
     }
-    return this.http.put<HttpResponse<boolean>>(`${this.baseUrl}/cartList/${listId}`, obj)
+    return this.http.patch<HttpResponse<boolean>>(`${this.baseUrl}/cartList/${listId}`, obj)
   }
 
   insertCartList(listId: number, cartList: Products[], product: Products): Observable<HttpResponse<boolean>>{
