@@ -1,12 +1,52 @@
 {
   "savedList": [
     {
-      "id": 1,
-      "name": "pão"
+      "name": "Pão Pulman",
+      "id": 1
     },
     {
-      "id": 2,
-      "name": "presunto"
+      "name": "Presunto Parma",
+      "id": 2
+    },
+    {
+      "name": "Amendoin",
+      "id": 3
+    },
+    {
+      "name": "mantega",
+      "id": 4
+    },
+    {
+      "name": "Leite Integral",
+      "id": 5
+    },
+    {
+      "name": "Pastel",
+      "id": 6
+    },
+    {
+      "name": "Sabonete ",
+      "id": 7
+    },
+    {
+      "name": "Arroz",
+      "id": 8
+    },
+    {
+      "name": "Feijão ",
+      "id": 9
+    },
+    {
+      "name": "Queijo",
+      "id": 10
+    },
+    {
+      "name": "Chocolate",
+      "id": 11
+    },
+    {
+      "name": "Desodorante",
+      "id": 12
     }
   ],
   "cartList": [
@@ -14,65 +54,23 @@
       "products": [
         {
           "productId": 1,
-          "name": "pão",
-          "price": 5.9
-        },
-        {
-          "productId": 2,
-          "name": "sabonetao",
-          "price": 1.99
-        },
-        {
-          "productId": 3,
-          "name": "mamao",
-          "price": 3.99
-        },
-        {
-          "productId": 6,
-          "name": "banana",
-          "price": 5.6
-        },
-        {
-          "productId": 7,
-          "name": "Facao",
-          "price": 50.99
-        },
-        {
-          "productId": 9,
-          "name": "baguetinha",
-          "price": 5.7
-        },
-        {
-          "productId": 10,
-          "name": "presunto",
-          "price": 4.4
-        }
-      ],
-      "dateTime": "2023-09-28T18:29:28.012Z",
-      "listName": "lista1",
-      "id": 1
-    },
-    {
-      "products": [
-        {
-          "productId": 1,
           "name": "baguete",
           "price": 7.9,
-          "qtd": 6,
+          "qtd": 7,
           "unidade": "un"
         },
         {
           "productId": 2,
           "name": "detergente",
           "price": 3.5,
-          "qtd": 5,
+          "qtd": 6,
           "unidade": "un"
         },
         {
           "productId": 3,
           "name": "panetone",
           "price": 27.8,
-          "qtd": 5,
+          "qtd": 4,
           "unidade": "un"
         },
         {
@@ -88,11 +86,25 @@
           "price": 0.12300000000000001,
           "qtd": 146,
           "unidade": "gr"
+        },
+        {
+          "productId": 6,
+          "name": "Pastel",
+          "price": 5,
+          "qtd": 10,
+          "unidade": "un"
+        },
+        {
+          "productId": 7,
+          "name": "Queijo",
+          "price": 0.0359,
+          "qtd": 104,
+          "unidade": "gr"
         }
       ],
       "id": 2,
-      "dateTime": "2023-09-28T18:29:28.012Z",
-      "listName": "lista dois"
+      "listName": "Lista do carrefour",
+      "dateTime": "2023-09-28T18:46:10.035Z"
     },
     {
       "listName": "Lista do sonda",
@@ -105,6 +117,27 @@
       "dateTime": "2023-09-28T20:49:03.225Z",
       "products": [],
       "id": 6
+    },
+    {
+      "listName": "Assai",
+      "dateTime": "2023-10-13T14:35:40.248Z",
+      "products": [
+        {
+          "productId": null,
+          "name": "Sabonete ",
+          "price": 3.5,
+          "qtd": 25,
+          "unidade": "un"
+        },
+        {
+          "productId": 1,
+          "name": "Amendoin",
+          "price": 0.045,
+          "qtd": 131,
+          "unidade": "gr"
+        }
+      ],
+      "id": 8
     }
   ]
 }

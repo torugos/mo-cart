@@ -22,8 +22,8 @@
 }
 
 
-ion-card{
-  padding: 0px 16px 0px 16px;
+swiper-slide{
+  margin-bottom: 32px;
 }
 
 .space-between{
@@ -50,6 +50,38 @@ hr{
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-ion-popover {
-  z-index: 1000;
+.table-row{
+  border: solid 1px; 
+  border-top: 0px; 
+  border-color: #d7d8da;
+}
+
+.title-font{
+  font-family: Impact, fantasy;
+  font-size: 16px;
+  color: #424242;
+}
+
+.table-row.table-header{
+  padding: 0px 16px 0px 16px;
+  border: 2px solid #a39999;
+}
+
+.tabela-fixada{
+  max-height: 31rem;
+  overflow-y: auto; 
+  width: 100%;
+}
+
+.space-between{
+  display: flex; 
+  justify-content: space-between;
+}
+
+ion-modal{
+  --width: 80%;
+  --min-width: 250px;
+  --height: 80%;
+  --border-radius: 6px;
+  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
 }

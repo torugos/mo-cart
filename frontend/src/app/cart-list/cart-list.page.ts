@@ -21,22 +21,23 @@ export class CartListPage implements OnInit {
   public lista: Products[] = [];
   public savedList: SavedList[] = [];
   public total: string = '';
+  public qtdItens: number = 0;
   private idList: number = Number(this.route.snapshot.paramMap.get('id')); 
   
   //Add config
   public isAddModalOpen = false;
-  public addProduct: string = '';
+  public addProduct: string | null = null;
   public addPrice: number | null = null;
   public addQtd: number | null = null;
-  public addUn: string = '';
+  public addUn: string | null = null;
   
   //Edit config
   public isEditModalOpen = false;
   public editProductId: number | null = null;
-  public editProduct: string = '';
+  public editProduct: string | null = null;
   public editPrice: number | null = null;
   public editQtd: number | null = null;
-  public editUn: string = '';
+  public editUn: string| null = null;
 
   ngOnInit() {
     this.getAllList();
@@ -60,6 +61,7 @@ export class CartListPage implements OnInit {
     this.cartListService.updateCartList(this.idList,this.lista).subscribe(
       () => {
         this.refreshTotal();
+        this.refreshQtdItens();
       },
       (err) => {
         console.log(err)
@@ -79,6 +81,7 @@ export class CartListPage implements OnInit {
       this.cartListService.updateCartList(this.idList,this.lista).subscribe(
         () => {
           this.refreshTotal();
+          this.refreshQtdItens();
         },
         (err) => {
           console.log(err)
@@ -103,32 +106,51 @@ export class CartListPage implements OnInit {
   private getAllList() {
     this.cartListService.getListById(this.idList).subscribe(
       (response) => {
-        console.log(response.products)
         this.lista = response.products;
         this.refreshTotal();
+        this.refreshQtdItens();
       });
   }
 
+  private refreshQtdItens() {
+    this.qtdItens = 0;
+    this.lista.forEach(
+      (element) => {
+        if(element.unidade == 'un')
+          this.qtdItens += element.qtd;
+        else
+          this.qtdItens++;
+      }
+    )
+  }
+
   private refreshTotal(){
-    const prices = this.lista.map(obj => {return obj.price * obj.qtd;});
+    const prices = this.lista.map(obj => {return obj.price * obj.qtd;});  
+    
     let soma = 0;
     prices.forEach(element => {soma += element});
+  
     this.total = soma.toFixed(2)
   }
 
   public delete(id: number){
-    let objIndex = this.lista.findIndex(obj => obj.productId == id)
-    this.lista.splice(objIndex, 1)
-    this.cartListService.deleteCartProduct(this.idList, this.lista).subscribe(
-      () => {
-        this.getAllList();
-        this.refreshTotal();
-      },
-      (err) => {
-        this.alert.errorPopUp("Erro ao excluir produto");
-        console.log(err)
-      }
-    )
+    this.alert.confirmDelete()
+      .then((result) => {
+        if(result.isConfirmed){
+          let objIndex = this.lista.findIndex(obj => obj.productId == id)
+          this.lista.splice(objIndex, 1)
+          this.cartListService.deleteCartProduct(this.idList, this.lista).subscribe(
+            () => {
+              this.getAllList();
+              this.refreshTotal();
+            },
+            (err) => {
+              this.alert.errorPopUp("Erro ao excluir produto");
+              console.log(err)
+            }
+          )
+        }
+      })
   }
 
   editModal(productId: number){
@@ -196,11 +218,19 @@ export class CartListPage implements OnInit {
         this.getAllList();
         this.refreshTotal();
         this.setAddOpen(false);
+        this.resetAdd();
       },
       (err) => {
         this.alert.errorPopUp("Erro ao inserir produto");
         console.log(err)
       }
     )
+  }
+  
+  resetAdd() {
+    this.addProduct = null;
+    this.addPrice = 0;
+    this.addQtd = null;
+    this.addUn = null
   }
 }

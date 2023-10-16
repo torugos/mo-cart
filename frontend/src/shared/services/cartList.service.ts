@@ -35,14 +35,14 @@ export class CartListService {
     let obj = {
       products: newProduct
     }
-    return this.http.put<HttpResponse<boolean>>(`${this.baseUrl}/cartList/${listId}`, obj)
+    return this.http.patch<HttpResponse<boolean>>(`${this.baseUrl}/cartList/${listId}`, obj)
   }
 
   deleteCartProduct(listId: number, cartList: Products[]): Observable<HttpResponse<boolean>>{
     let obj = {
       products: cartList
     }
-    return this.http.put<HttpResponse<boolean>>(`${this.baseUrl}/cartList/${listId}`, obj)
+    return this.http.patch<HttpResponse<boolean>>(`${this.baseUrl}/cartList/${listId}`, obj)
   }
 
   createNewList(listName: string): Observable<HttpResponse<boolean>>{
@@ -54,8 +54,14 @@ export class CartListService {
 
     return this.http.post<HttpResponse<boolean>>(`${this.baseUrl}/cartList`, obj)
   }
+  AlterNewListName(listId:number, listName: string): Observable<HttpResponse<boolean>>{
+    let obj ={
+      listName: listName
+    }
+    return this.http.patch<HttpResponse<boolean>>(`${this.baseUrl}/cartList/${listId}`, obj)
+  }
 
-  deleteList(id: number): Observable<HttpResponse<boolean>>{
+  deleteCartList(id: number): Observable<HttpResponse<boolean>>{
     return this.http.delete<HttpResponse<boolean>>(`${this.baseUrl}/cartList/${id}`)
   }
 
@@ -63,4 +69,23 @@ export class CartListService {
     return this.http.get<SavedList[]>(`${this.baseUrl}/savedList`)
   }
 
+  insertSavedList(element: string): Observable<HttpResponse<boolean>>{
+    let obj = {
+      name: element
+    }
+
+    return this.http.post<HttpResponse<boolean>>(`${this.baseUrl}/savedList`, obj);
+  }
+
+  deleteSavedList(index: number): Observable<HttpResponse<boolean>>{
+    return this.http.delete<HttpResponse<boolean>>(`${this.baseUrl}/savedList/${index}`);
+  }
+
+  UpdateSavedListItem(id:number, itemName: string): Observable<HttpResponse<boolean>>{
+    let obj ={
+      name: itemName,
+      id: id
+    }
+    return this.http.put<HttpResponse<boolean>>(`${this.baseUrl}/savedList/${id}`, obj)
+  }
 }

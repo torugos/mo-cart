@@ -9,8 +9,8 @@
 <ion-content>
   <ion-title style="padding-top: 8px;">Listas de Compras</ion-title>
 
-  <swiper-container slides-per-view="3" navigation="true" pagination="true" class="mat-elevation-z8">
-    <swiper-slide *ngFor="let item of lista, let i = index">
+  <swiper-container #swiper slides-per-view="2" pagination="true" class="mat-elevation-z8">
+    <swiper-slide *ngFor="let item of lista">
       <ion-card>
         <ion-card-header class="action-buttons">
           <ion-card-title class="vertical-align" id="top-center">
@@ -19,65 +19,33 @@
         </ion-card-header>
 
         <ion-card-content>
-          <ion-card-subtitle class="space-between">{{item.dateTime | date:"dd/MM/yyyy HH:mm"}} <span>#{{item.id}}</span></ion-card-subtitle>
+          <ion-card-subtitle class="space-between"><span>Criada em: {{item.dateTime | date:"dd/MM/yyyy HH:mm"}}</span> <span>#{{item.id}}</span></ion-card-subtitle>
           <ion-buttons class="center">
             <ion-button color="primary" [routerLink]="['/cart-list', item.id]">
               <span>Abrir</span> 
               <ion-icon name="open-outline"></ion-icon>
             </ion-button>
-            <ion-button title="editar nome" side="top" alignment="center">
+            <ion-button title="editar nome" (click)="openEditListNameModal(item.id, item.listName)" side="top" alignment="center">
               <ion-icon name="create-outline"></ion-icon>
             </ion-button>
-            <ion-button color="danger" (click)="deleteList(item.id)" title="deletar">
+            <ion-button color="danger" (click)="deleteCartList(item.id)" title="deletar">
               <ion-icon name="trash-outline"></ion-icon>
             </ion-button>
           </ion-buttons>
-
-          <ion-popover *ngIf="isPopoverOpen[i]" [isOpen]="isPopoverOpen[i]">
-            <ng-template>
-              <ion-list>
-                <ion-item>
-                  <ion-label>Conteúdo do Popover</ion-label>
-                  <!-- Adicione o conteúdo do popover aqui, como um campo de entrada para o novo nome -->
-                </ion-item>
-              </ion-list>
-              <ion-button (click)="fecharPopover(i)" color="danger">Fechar</ion-button>
-            </ng-template>
-          </ion-popover>
-
-          <!-- popover para editar nome -->
-        <!-- <ion-popover [isOpen]="isPopoverOpen[i]">
-          <ng-template>
-            <app-popover-content >
-              <input
-                type="text"
-                class="custom-input"
-                [value]="item.listName">
-              <ion-button (click)="fecharPopover()" color="danger">Fechar</ion-button>
-            </app-popover-content>
-          </ng-template>
-        </ion-popover> -->
         </ion-card-content>
       </ion-card>
     </swiper-slide>
   </swiper-container>
-
-  <ion-button expand="block" style="margin-left: 10px; margin-right: 10px;" (click)="setOpen(true)">Cria nova lista</ion-button>
-
-  <hr/>
-
-  <ion-title style="padding-top: 8px;">Lista de Compras pré salva</ion-title>
-
-  <ion-button> Teste</ion-button>
+  <ion-button expand="block" style="margin-left: 10px; margin-right: 10px;" (click)="setOpen(true, 'newList')">Cria nova lista</ion-button>
 
   <!-- Modal de nova lista -->
-  <ion-modal [isOpen]="isModalOpen" [backdropDismiss]="false">
+  <ion-modal [isOpen]="isAddListModalOpen" [backdropDismiss]="false">
     <ng-template>
       <ion-header>
         <ion-toolbar>
           <ion-title>Nova Lista</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="setOpen(false)">Fechar</ion-button>
+            <ion-button (click)="setOpen(false, 'newList')">Fechar</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -101,12 +69,119 @@
       </ion-footer>
     </ng-template>
   </ion-modal>  
+
+  <!-- Modal de edição de nome da lista -->
+  <ion-modal [isOpen]="isEditListModalOpen" [backdropDismiss]="false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Alterar Nome da Lista</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false, 'editListName')">Fechar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <div class="center">
+          <input type="text" class="custom-input" [(ngModel)]="editNomeLista">
+        </div>
+      </ion-content>
+
+      <ion-footer class="center">
+        <ion-toolbar class="center">
+            <ion-button class="center" (click)="alterListName()">Alterar</ion-button>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>  
+
+  <hr/>
+
+  <ion-title style="padding-top: 8px;">Lista de Compras pré salva</ion-title>
+
+  <ion-grid>
+    <ion-row class="table-header table-row space-between">
+      <ion-item class="title-font">
+        <ion-col>Produto</ion-col>
+      </ion-item>
+      <ion-item class="title-font">
+        <ion-col>Ações</ion-col>
+      </ion-item>
+    </ion-row>
+
+    <ion-grid  class="tabela-fixada">
+      <ion-row *ngFor="let item of savedList" class="table-row space-between">
+        <ion-item>
+          <ion-col>{{item.name}}</ion-col>
+        </ion-item>
+        <ion-buttons>
+          <ion-button color="primary" (click)="openEditPreviousNameModal(item.id, item.name)">Editar</ion-button>
+          <ion-button color="danger" (click)="deletePreviousList(item.id)">Excluir</ion-button>
+        </ion-buttons>
+      </ion-row>
+    </ion-grid>
+  </ion-grid>
+  <ion-button expand="block" style="margin-left: 10px; margin-right: 10px;" (click)="setOpen(true,'previousList')">Adicionar produto a lista pré-salva</ion-button>
+
+<!-- Modal de edição elemento previousList -->
+<ion-modal [isOpen]="isPreviousEditModalOpen" [backdropDismiss]="false">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Editar item na lista pré-salva</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="setOpen(false,'previousEdit')">Fechar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+      <div class="center">
+        <input type="text" class="custom-input" [(ngModel)]="editNewElement">
+      </div>
+    </ion-content>
+
+    <ion-footer class="center">
+      <ion-toolbar class="center">
+          <ion-button class="center" (click)="updatePreviousItem()">Alterar</ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>  
+
+  <!-- Modal de novo elemento previousList -->
+  <ion-modal [isOpen]="isPreviousModalOpen" [backdropDismiss]="false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Novo item na lista pré-salva</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false,'previous')">Fechar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <div class="center">
+          <input type="text" class="custom-input" placeholder="Novo Elemento" [(ngModel)]="newElement">
+        </div>
+      </ion-content>
+
+      <ion-footer class="center">
+        <ion-toolbar class="center">
+            <ion-button class="center" (click)="addPreviousList()">Adicionar</ion-button>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>  
+
 </ion-content>
 
 <ion-footer>
   <ion-toolbar style="text-align: end;">
     <ion-title>
-      Todos os direitos reservados ©Torugos <ion-icon name="logo-github"></ion-icon>.
+      Todos os direitos reservados <a href="http://github.com/torugos">©Torugos <ion-icon name="logo-github"></ion-icon></a>.
     </ion-title>
   </ion-toolbar>
 </ion-footer>
