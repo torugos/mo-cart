@@ -79,10 +79,15 @@ ion-icon{
     justify-content: space-between;
 }
 
+.crossed{
+    text-decoration: line-through;
+    pointer-events: none;
+}
+
 ion-modal{
     --width: 80%;
     --min-width: 250px;
     --height: 80%;
     --border-radius: 6px;
     --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
-  }
+}

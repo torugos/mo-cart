@@ -109,7 +109,12 @@ export class CartListPage implements OnInit {
         this.lista = response.products;
         this.refreshTotal();
         this.refreshQtdItens();
+        this.refreshSavedList();
       });
+  }
+
+  refreshSavedList() {
+    
   }
 
   private refreshQtdItens() {
