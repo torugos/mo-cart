@@ -3,7 +3,7 @@
     {
       "name": "Pão Pulman",
       "id": 1,
-      "selected": true
+      "selected": false
     },
     {
       "name": "Presunto Parma",
@@ -91,20 +91,6 @@
           "price": 0.06153846153846154,
           "qtd": 117,
           "unidade": "gr"
-        },
-        {
-          "productId": 5,
-          "name": "queijo",
-          "price": 0.12300000000000001,
-          "qtd": 146,
-          "unidade": "gr"
-        },
-        {
-          "productId": 6,
-          "name": "Pastel",
-          "price": 5,
-          "qtd": 10,
-          "unidade": "un"
         },
         {
           "productId": 7,

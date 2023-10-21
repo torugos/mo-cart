@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { CartListService } from 'src/shared/services/cartList.service';
 import { Products } from '../models/products.model';
 import { AlertService } from 'src/shared/services/alert.service';
@@ -11,7 +11,7 @@ import { SavedList } from '../models/saved-list.model';
   templateUrl: './cart-list.page.html',
   styleUrls: ['./cart-list.page.scss'],
 })
-export class CartListPage implements OnInit {
+export class CartListPage implements OnInit{
   
   constructor(
     private route: ActivatedRoute,
@@ -39,7 +39,7 @@ export class CartListPage implements OnInit {
   public editQtd: number | null = null;
   public editUn: string| null = null;
 
-  ngOnInit() {
+  ngOnInit(){
     this.getAllList();
     this.getSavedList();
   }
@@ -94,6 +94,7 @@ export class CartListPage implements OnInit {
     this.cartListService.getSavedList().subscribe(
       (list) => {
         this.savedList = list;
+        this.refreshSavedList();
       }
     )
   }
@@ -114,7 +115,22 @@ export class CartListPage implements OnInit {
   }
 
   refreshSavedList() {
-    
+    const savedNames = this.savedList.map(obj => {return obj.name;});
+
+    let x = savedNames.filter(x => this.lista.some(item => item.name == x))
+    console.log(x)
+    console.log(this.savedList)
+    this.savedList.forEach(
+      el => {
+        if(x.includes(el.name))
+          el.selected = true;
+        else
+          el.selected = false;
+      }
+    )
+
+
+
   }
 
   private refreshQtdItens() {
