@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { CartListService } from 'src/shared/services/cartList.service';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { CartListService } from 'src/services/cartList.service';
 import { CartList } from '../models/cart-list.model';
-import { AlertService } from 'src/shared/services/alert.service';
+import { AlertService } from 'src/services/alert.service';
 import { SavedList } from '../models/saved-list.model';
 import Swiper from 'swiper';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -25,16 +26,29 @@ export class HomePage implements OnInit{
   public isPreviousEditModalOpen = false;
 
   public newElement: string = '';
+  public newElementQtd: number | null = null;
+  public newElementUn: string = '';
+
   public editNewElement: string = '';
+  public editNewElementQtd: number | null  = null;
+  public editNewElementUn: string = '';
 
   @ViewChild('swiper') swiperRef?: ElementRef;
 
   constructor(
     private alert: AlertService,
+    private route: ActivatedRoute,
+    private router: Router,
     private cartListService: CartListService
   ) {}
-
+    
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      if(params['reload']){
+        this.getAllLists();
+        this.getSavedList();
+      }
+    })
     this.getAllLists();
     this.getSavedList();
   }
@@ -51,13 +65,11 @@ export class HomePage implements OnInit{
     this.cartListService.getAllLists().pipe().subscribe({
       next: (response) => {
         this.lista = response;
-
         setTimeout(() => {
           this.swiperRef?.nativeElement.swiper.update();
         }, 100);
       },
-      error: (e) => console.error(e),
-      complete: () => {console.log("complete")}
+      error: (e) => console.error(e)
     })
   }
 
@@ -72,8 +84,10 @@ export class HomePage implements OnInit{
         this.isEditListModalOpen = isOpen;
       break;
 
-      case "previousList":
+      case "previous":
         this.newElement = '';
+        this.newElementQtd = null;
+        this.newElementUn = '';
         this.isPreviousModalOpen = isOpen;
       break;
 
@@ -89,9 +103,11 @@ export class HomePage implements OnInit{
     this.setOpen(true, 'editListName')
   }
 
-  openEditPreviousNameModal(id: number, previousItem: string){
+  openEditPreviousNameModal(id: number, previousItem: string, qtd: number, un: string){
     this.editNewElement = previousItem;
     this.editId = id;
+    this.editNewElementQtd = qtd;
+    this.editNewElementUn = un;
     this.setOpen(true, 'previousEdit')
   }
 
@@ -144,9 +160,10 @@ export class HomePage implements OnInit{
   }
 
   addPreviousList(){
-    if(this.newElement == '')
-      return this.alert.errorPopUp("Insira algum item!");
-    this.cartListService.insertSavedList(this.newElement).subscribe(
+    if(this.newElement == '' || this.newElement == null || this.newElementQtd == null || this.newElementQtd <= 0 || this.newElementUn == '')
+      return this.alert.errorPopUp("Insira algum item e quantidade validos!");
+
+    this.cartListService.insertSavedList(this.newElement, this.newElementQtd, this.newElementUn).subscribe(
       () => {
         this.alert.successPopUp("item adicionado!");
         this.getSavedList();
@@ -174,10 +191,10 @@ export class HomePage implements OnInit{
       })
   }
   updatePreviousItem(){
-    if(this.editNewElement.length == 0 || this.editNewElement == null)
-      this.alert.errorPopUp("Insira um nome para a lista")
+    if(this.editNewElement.length == 0 || this.editNewElement == null || this.editNewElementQtd == null || this.editNewElementQtd <= 0 || this.editNewElementUn == null)
+      this.alert.errorPopUp("Insira um nome para a lista e quantidade validos")
     else{
-      this.cartListService.UpdateSavedListItem(this.editId, this.editNewElement).subscribe(
+      this.cartListService.UpdateSavedListItem(this.editId, this.editNewElement, this.editNewElementQtd, this.editNewElementUn).subscribe(
         () => {
           this.alert.successPopUp("Item alterado com sucesso!");
           this.setOpen(false, 'previousEdit');

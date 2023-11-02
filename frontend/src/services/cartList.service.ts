@@ -21,10 +21,17 @@ export class CartListService {
   getAllLists() : Observable<CartList[]>{
     return this.http.get<CartList[]>(`${this.baseUrl}/cartList`)
   }
-
+ 
   updateCartList(listId: number, cartList: Products[]): Observable<HttpResponse<boolean>>{
     let obj = {
       products: cartList
+    }
+    return this.http.patch<HttpResponse<boolean>>(`${this.baseUrl}/cartList/${listId}`, obj)
+  }
+
+  updateTotal(total: number, listId: number): Observable<HttpResponse<boolean>>{
+    let obj = {
+      total: total
     }
     return this.http.patch<HttpResponse<boolean>>(`${this.baseUrl}/cartList/${listId}`, obj)
   }
@@ -69,9 +76,12 @@ export class CartListService {
     return this.http.get<SavedList[]>(`${this.baseUrl}/savedList`)
   }
 
-  insertSavedList(element: string): Observable<HttpResponse<boolean>>{
+  insertSavedList(element: string, quantidade: number, un: string): Observable<HttpResponse<boolean>>{
     let obj = {
-      name: element
+      name: element,
+      qtd: quantidade,
+      unidade: un,
+      selected: false
     }
 
     return this.http.post<HttpResponse<boolean>>(`${this.baseUrl}/savedList`, obj);
@@ -81,11 +91,12 @@ export class CartListService {
     return this.http.delete<HttpResponse<boolean>>(`${this.baseUrl}/savedList/${index}`);
   }
 
-  UpdateSavedListItem(id:number, itemName: string): Observable<HttpResponse<boolean>>{
+  UpdateSavedListItem(id:number, itemName: string, quantidade: number, un: string): Observable<HttpResponse<boolean>>{
     let obj ={
       name: itemName,
-      id: id
+      qtd: quantidade,
+      unidade: un
     }
-    return this.http.put<HttpResponse<boolean>>(`${this.baseUrl}/savedList/${id}`, obj)
+    return this.http.patch<HttpResponse<boolean>>(`${this.baseUrl}/savedList/${id}`, obj)
   }
 }

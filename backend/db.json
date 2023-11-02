@@ -3,118 +3,188 @@
     {
       "name": "Pão Pulman",
       "id": 1,
+      "qtd": 3,
+      "unidade": "un",
       "selected": false
     },
     {
       "name": "Presunto Parma",
       "id": 2,
+      "qtd": 100,
+      "unidade": "gr",
       "selected": false
     },
     {
       "name": "Amendoin",
       "id": 3,
+      "qtd": 1,
+      "unidade": "un",
       "selected": false
     },
     {
-      "name": "mantega",
+      "name": "manteiga",
       "id": 4,
+      "qtd": 1,
+      "unidade": "un",
       "selected": false
     },
     {
       "name": "Leite Integral",
       "id": 5,
+      "qtd": 1,
+      "unidade": "un",
       "selected": false
     },
     {
       "name": "Pastel",
       "id": 6,
+      "qtd": 3,
+      "unidade": "un",
       "selected": false
     },
     {
       "name": "Sabonete ",
       "id": 7,
+      "qtd": 1,
+      "unidade": "un",
       "selected": false
     },
     {
       "name": "Arroz",
       "id": 8,
+      "qtd": 1,
+      "unidade": "un",
       "selected": false
     },
     {
       "name": "Feijão ",
       "id": 9,
+      "qtd": 1,
+      "unidade": "un",
       "selected": false
     },
     {
       "name": "Queijo",
       "id": 10,
+      "qtd": 1,
+      "unidade": "un",
       "selected": false
     },
     {
       "name": "Chocolate",
       "id": 11,
+      "qtd": 1,
+      "unidade": "un",
       "selected": false
     },
     {
       "name": "Desodorante",
       "id": 12,
+      "qtd": 1,
+      "unidade": "un",
       "selected": false
+    },
+    {
+      "name": "Mortadela",
+      "qtd": 250,
+      "unidade": "gr",
+      "selected": false,
+      "id": 13
+    },
+    {
+      "name": "Salsicha",
+      "qtd": 2000,
+      "unidade": "gr",
+      "selected": false,
+      "id": 14
+    },
+    {
+      "name": "Panetone ",
+      "qtd": 2,
+      "unidade": "un",
+      "selected": false,
+      "id": 15
+    },
+    {
+      "name": "Limão",
+      "qtd": 5,
+      "unidade": "un",
+      "selected": false,
+      "id": 16
     }
   ],
   "cartList": [
     {
       "products": [
         {
-          "productId": 1,
-          "name": "baguete",
-          "price": 7.9,
-          "qtd": 7,
-          "unidade": "un"
-        },
-        {
           "productId": 2,
           "name": "detergente",
           "price": 3.5,
-          "qtd": 6,
+          "qtd": 9,
           "unidade": "un"
         },
         {
           "productId": 3,
           "name": "panetone",
           "price": 27.8,
-          "qtd": 4,
+          "qtd": 37,
           "unidade": "un"
         },
         {
           "productId": 4,
           "name": "presunto",
           "price": 0.06153846153846154,
-          "qtd": 117,
+          "qtd": 156,
           "unidade": "gr"
         },
         {
           "productId": 7,
           "name": "Queijo",
           "price": 0.0359,
-          "qtd": 104,
+          "qtd": 105,
+          "unidade": "gr"
+        },
+        {
+          "productId": 8,
+          "name": "Sabonete ",
+          "price": 2.5,
+          "qtd": 4,
+          "unidade": "un"
+        },
+        {
+          "productId": 9,
+          "name": "Presunto Parma",
+          "price": 0.00008333333333333334,
+          "qtd": "300",
           "unidade": "gr"
         }
       ],
       "id": 2,
       "listName": "Lista do carrefour",
-      "dateTime": "2023-09-28T18:46:10.035Z"
+      "dateTime": "2023-09-28T18:46:10.035Z",
+      "total": 1083.4945000000002
     },
     {
       "listName": "Lista do sonda",
       "dateTime": "2023-09-28T18:46:10.035Z",
       "products": [],
-      "id": 5
+      "id": 5,
+      "total": 0
     },
     {
       "listName": "joanin terça feira",
       "dateTime": "2023-09-28T20:49:03.225Z",
-      "products": [],
-      "id": 6
+      "products": [
+        {
+          "productId": null,
+          "name": "Pastel",
+          "price": 5,
+          "qtd": 3,
+          "unidade": "un"
+        }
+      ],
+      "id": 6,
+      "total": 15
     },
     {
       "listName": "Assai",
@@ -135,7 +205,15 @@
           "unidade": "gr"
         }
       ],
-      "id": 8
+      "id": 8,
+      "total": 93.395
+    },
+    {
+      "listName": "Pedrberto",
+      "dateTime": "2023-10-30T23:54:49.701Z",
+      "products": [],
+      "id": 9,
+      "total": 5
     }
   ]
 }

@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { CartListService } from 'src/shared/services/cartList.service';
+import { Component, OnInit } from '@angular/core';
+import { CartListService } from 'src/services/cartList.service';
 import { Products } from '../models/products.model';
-import { AlertService } from 'src/shared/services/alert.service';
+import { AlertService } from 'src/services/alert.service';
 import { ActivatedRoute } from '@angular/router';
-import { MenuController } from '@ionic/angular';
 import { SavedList } from '../models/saved-list.model';
+import { PhotoService } from 'src/services/photo.service';
 
 @Component({
   selector: 'app-cart-list',
@@ -16,8 +16,10 @@ export class CartListPage implements OnInit{
   constructor(
     private route: ActivatedRoute,
     private alert: AlertService,
+    private photo: PhotoService,
     private cartListService: CartListService) { }
   
+  public nomeLista: string = '';
   public lista: Products[] = [];
   public savedList: SavedList[] = [];
   public total: string = '';
@@ -29,7 +31,7 @@ export class CartListPage implements OnInit{
   public addProduct: string | null = null;
   public addPrice: number | null = null;
   public addQtd: number | null = null;
-  public addUn: string | null = null;
+  public addUn: string | null = 'un';
   
   //Edit config
   public isEditModalOpen = false;
@@ -46,11 +48,10 @@ export class CartListPage implements OnInit{
 
   setEditOpen(isOpen: boolean){this.isEditModalOpen = isOpen;}
   setAddOpen(isOpen: boolean){
+    if(!isOpen)
+      this.resetAdd();
     this.isAddModalOpen = isOpen;
-    this.addProduct = '';
-    this.addPrice = null;
-
-  }
+}
 
   plusOne(productId: number, qtt: number){
     let obj ={
@@ -99,16 +100,19 @@ export class CartListPage implements OnInit{
     )
   }
 
-  itemAdd(itemName: string){
+  itemAddSaved(itemName: string, itemQtd: number, itemUn: string){
     this.setAddOpen(true);
     this.addProduct = itemName;
+    this.addQtd = itemQtd;
+    this.addUn = itemUn;
   }
 
   private getAllList() {
     this.cartListService.getListById(this.idList).subscribe(
       (response) => {
+        this.nomeLista = response.listName;
         this.lista = response.products;
-        this.refreshTotal();
+        this.total = response.total.toFixed(2)
         this.refreshQtdItens();
         this.refreshSavedList();
       });
@@ -118,8 +122,6 @@ export class CartListPage implements OnInit{
     const savedNames = this.savedList.map(obj => {return obj.name;});
 
     let x = savedNames.filter(x => this.lista.some(item => item.name == x))
-    console.log(x)
-    console.log(this.savedList)
     this.savedList.forEach(
       el => {
         if(x.includes(el.name))
@@ -128,9 +130,6 @@ export class CartListPage implements OnInit{
           el.selected = false;
       }
     )
-
-
-
   }
 
   private refreshQtdItens() {
@@ -150,6 +149,13 @@ export class CartListPage implements OnInit{
     
     let soma = 0;
     prices.forEach(element => {soma += element});
+
+    this.cartListService.updateTotal(soma, this.idList).subscribe(
+      (response) => console.log(response),
+      (err) => {
+        console.log(err)
+      }
+    )
   
     this.total = soma.toFixed(2)
   }
@@ -163,7 +169,6 @@ export class CartListPage implements OnInit{
           this.cartListService.deleteCartProduct(this.idList, this.lista).subscribe(
             () => {
               this.getAllList();
-              this.refreshTotal();
             },
             (err) => {
               this.alert.errorPopUp("Erro ao excluir produto");
@@ -179,7 +184,10 @@ export class CartListPage implements OnInit{
     let objEdit = this.lista[this.lista.findIndex(obj => obj.productId === productId)];
     this.editProductId = productId;
     this.editProduct = objEdit.name;
-    this.editPrice = objEdit.price;
+    if(objEdit.unidade == 'gr')
+      this.editPrice = objEdit.price * objEdit.qtd;
+    else
+      this.editPrice = objEdit.price;
     this.editQtd = objEdit.qtd;
     this.editUn = objEdit.unidade;
   }
@@ -199,14 +207,12 @@ export class CartListPage implements OnInit{
       unidade: this.editUn
     };
 
-    console.log(obj)
     Object.assign(this.lista[this.lista.findIndex(obj => obj.productId === this.editProductId)],obj)
 
-    console.log(this.lista)
     this.cartListService.updateCartList(this.idList,this.lista).subscribe(
       () => {
         this.setEditOpen(false);
-        this.refreshTotal();
+        this.getAllList();
       },
       (err) => {
         console.log(err)
@@ -237,7 +243,6 @@ export class CartListPage implements OnInit{
         () => {
         this.alert.successPopUp("Produto inserido com sucesso");
         this.getAllList();
-        this.refreshTotal();
         this.setAddOpen(false);
         this.resetAdd();
       },
@@ -248,10 +253,14 @@ export class CartListPage implements OnInit{
     )
   }
   
-  resetAdd() {
+  private resetAdd() {
     this.addProduct = null;
-    this.addPrice = 0;
+    this.addPrice = null;
     this.addQtd = null;
     this.addUn = null
+  }
+
+  addPhotoToGallery() {
+    this.photo.takePicture();
   }
 }

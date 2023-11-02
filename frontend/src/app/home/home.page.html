@@ -7,9 +7,9 @@
 </ion-header>
 
 <ion-content>
-  <ion-title style="padding-top: 8px;">Listas de Compras</ion-title>
+  <ion-title style="padding-top: 8px;">Carrinhos de compras</ion-title>
 
-  <swiper-container #swiper slides-per-view="2" pagination="true" class="mat-elevation-z8">
+  <swiper-container #swiper [slidesPerView]="2" pagination="true" class="mat-elevation-z8">
     <swiper-slide *ngFor="let item of lista">
       <ion-card>
         <ion-card-header class="action-buttons">
@@ -20,6 +20,7 @@
 
         <ion-card-content>
           <ion-card-subtitle class="space-between"><span>Criada em: {{item.dateTime | date:"dd/MM/yyyy HH:mm"}}</span> <span>#{{item.id}}</span></ion-card-subtitle>
+          <ion-card-subtitle>Total da compra: {{item.total | currency: 'BRL'}}</ion-card-subtitle>
           <ion-buttons class="center">
             <ion-button color="primary" [routerLink]="['/cart-list', item.id]">
               <span>Abrir</span> 
@@ -36,14 +37,14 @@
       </ion-card>
     </swiper-slide>
   </swiper-container>
-  <ion-button expand="block" style="margin-left: 10px; margin-right: 10px;" (click)="setOpen(true, 'newList')">Cria nova lista</ion-button>
+  <ion-button expand="block" style="margin-left: 10px; margin-right: 10px;" (click)="setOpen(true, 'newList')">Cria novo carrinho de compras</ion-button>
 
   <!-- Modal de nova lista -->
   <ion-modal [isOpen]="isAddListModalOpen" [backdropDismiss]="false">
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Nova Lista</ion-title>
+          <ion-title>Novo Carrinho</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="setOpen(false, 'newList')">Fechar</ion-button>
           </ion-buttons>
@@ -75,7 +76,7 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Alterar Nome da Lista</ion-title>
+          <ion-title>Alterar nome do carrinho</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="setOpen(false, 'editListName')">Fechar</ion-button>
           </ion-buttons>
@@ -83,53 +84,49 @@
       </ion-header>
 
       <ion-content class="ion-padding">
-        <div class="center">
+        <div class="center-modal">
           <input type="text" class="custom-input" [(ngModel)]="editNomeLista">
+
+          <div class="center mT4">
+            <ion-button (click)="alterListName()">Alterar</ion-button>
+          </div>
         </div>
       </ion-content>
-
-      <ion-footer class="center">
-        <ion-toolbar class="center">
-            <ion-button class="center" (click)="alterListName()">Alterar</ion-button>
-        </ion-toolbar>
-      </ion-footer>
     </ng-template>
   </ion-modal>  
 
   <hr/>
 
-  <ion-title style="padding-top: 8px;">Lista de Compras pré salva</ion-title>
+  <ion-title style="padding-top: 8px;">Lembretes</ion-title>
 
   <ion-grid>
-    <ion-row class="table-header table-row space-between">
-      <ion-item class="title-font">
-        <ion-col>Produto</ion-col>
-      </ion-item>
-      <ion-item class="title-font">
-        <ion-col>Ações</ion-col>
-      </ion-item>
+    <ion-row class="table-header table-row">
+      <ion-col class="title-font center" size-md="1.5" size-sm="2">Quantidade</ion-col>
+      <ion-col class="title-font" size="2">Produto</ion-col>
+      <ion-col class="title-font" offset-sm="6" offset-md="6.5" size="2">Ações</ion-col>
     </ion-row>
 
-    <ion-grid  class="tabela-fixada">
-      <ion-row *ngFor="let item of savedList" class="table-row space-between">
-        <ion-item>
-          <ion-col>{{item.name}}</ion-col>
-        </ion-item>
-        <ion-buttons>
-          <ion-button color="primary" (click)="openEditPreviousNameModal(item.id, item.name)">Editar</ion-button>
-          <ion-button color="danger" (click)="deletePreviousList(item.id)">Excluir</ion-button>
-        </ion-buttons>
+    <ion-grid class="tabela-fixada-kiosk">
+      <ion-row *ngFor="let item of savedList" class="table-row">
+        <ion-col size-md="1.5" size-sm="2" class="center">{{item.qtd}}{{item.unidade}}</ion-col>
+        <ion-col size="2">{{item.name}}</ion-col>
+        <ion-col offset="5" size="3" offset-md="5.5">
+          <ion-buttons class="center">
+            <ion-button color="primary" (click)="openEditPreviousNameModal(item.id, item.name, item.qtd, item.unidade)">Editar</ion-button>
+            <ion-button color="danger" (click)="deletePreviousList(item.id)">Excluir</ion-button>
+          </ion-buttons>
+        </ion-col>
       </ion-row>
     </ion-grid>
   </ion-grid>
-  <ion-button expand="block" style="margin-left: 10px; margin-right: 10px;" (click)="setOpen(true,'previousList')">Adicionar produto a lista pré-salva</ion-button>
+  <ion-button expand="block" style="margin-left: 10px; margin-right: 10px;" (click)="setOpen(true,'previous')">Adicionar lembrete</ion-button>
 
 <!-- Modal de edição elemento previousList -->
 <ion-modal [isOpen]="isPreviousEditModalOpen" [backdropDismiss]="false">
   <ng-template>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Editar item na lista pré-salva</ion-title>
+        <ion-title>Editar lembrete</ion-title>
         <ion-buttons slot="end">
           <ion-button (click)="setOpen(false,'previousEdit')">Fechar</ion-button>
         </ion-buttons>
@@ -137,16 +134,22 @@
     </ion-header>
 
     <ion-content class="ion-padding">
-      <div class="center">
+      <div class="center-modal">
         <input type="text" class="custom-input" [(ngModel)]="editNewElement">
+        <div class="center mT4" style="flex-direction: row; display: flex;">
+          <input style="width: 35%;" type="number" min="0" class="custom-input" placeholder="Quantidade" [(ngModel)]="editNewElementQtd" required>
+          <ion-item>
+            <ion-select interface="popover" placeholder="Unidade" [(ngModel)]="editNewElementUn">
+              <ion-select-option value="un">Unidade</ion-select-option>
+              <ion-select-option value="gr">Grama</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
+        <div class="center mT4">
+          <ion-button (click)="updatePreviousItem()">Alterar</ion-button>
+        </div>
       </div>
     </ion-content>
-
-    <ion-footer class="center">
-      <ion-toolbar class="center">
-          <ion-button class="center" (click)="updatePreviousItem()">Alterar</ion-button>
-      </ion-toolbar>
-    </ion-footer>
   </ng-template>
 </ion-modal>  
 
@@ -155,7 +158,7 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Novo item na lista pré-salva</ion-title>
+          <ion-title>Novo lembrete</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="setOpen(false,'previous')">Fechar</ion-button>
           </ion-buttons>
@@ -164,7 +167,16 @@
 
       <ion-content class="ion-padding">
         <div class="center">
-          <input type="text" class="custom-input" placeholder="Novo Elemento" [(ngModel)]="newElement">
+          <input type="text" class="custom-input" placeholder="Produto" [(ngModel)]="newElement">
+        </div>
+        <div class="center mT4" style="flex-direction: row; display: flex;">
+          <input style="width: 35%;" type="number" min="0" class="custom-input" placeholder="Quantidade" [(ngModel)]="newElementQtd" required>
+          <ion-item>
+            <ion-select interface="popover" placeholder="Unidade" [(ngModel)]="newElementUn">
+              <ion-select-option value="un">Unidade</ion-select-option>
+              <ion-select-option value="gr">Grama</ion-select-option>
+            </ion-select>
+          </ion-item>
         </div>
       </ion-content>
 

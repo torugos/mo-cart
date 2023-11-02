@@ -5,4 +5,5 @@ export interface CartList {
     listName: string;
     dateTime: string;
     products: Products[];
+    total: number;
 }

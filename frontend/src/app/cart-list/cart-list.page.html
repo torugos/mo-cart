@@ -1,15 +1,23 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button default-href="#"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Lista de Compras</ion-title>
+    <ion-title><ion-icon name="arrow-back" [routerLink]="['/home']" [queryParams]="{ reload: 'true' }" style="vertical-align: bottom;"></ion-icon>  {{nomeLista}}  </ion-title>    
+    <ion-icon slot="end" name="cart" style="padding-right: 8px;" [routerLink]="['/']"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" id="main-content">
 
-  <h1 *ngIf="lista.length == 0" class="alt-title">Adicione Itens ao seu carrinho!</h1>
+  <div *ngIf="lista.length == 0">
+    <div class="v-center">
+      <ion-img
+        style="width: 15%;"
+        src="../../assets/img/slide right.png" 
+        alt="Deslize para a direita."
+      ></ion-img>
+      <h1 class="alt-title">Deslize o canto da tela, para acessar a lista de Lembretes!</h1>
+    </div>
+    <h1 class="alt-title fixed-bottom">Para adicionar itens ao carrinho clique no icone <ion-icon name="arrow-forward" style="vertical-align: middle;"></ion-icon></h1>
+  </div>
 
   <ion-grid style="width: 95%;" *ngIf="lista.length >= 1">
     <ion-row class="table-header table-row title-font">
@@ -53,9 +61,18 @@
   </ion-grid>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button expand="block" (click)="setAddOpen(true)">
-      <ion-icon name="add"></ion-icon>
+    <ion-fab-button>
+      <ion-icon name="chevron-up-circle"></ion-icon>
     </ion-fab-button>
+
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="addPhotoToGallery()">
+        <ion-icon name="camera"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="setAddOpen(true)">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
   </ion-fab>
 </ion-content>
 
@@ -63,15 +80,17 @@
 <ion-menu menuId="first-menu" contentId="main-content">
   <ion-header>
     <ion-toolbar>
-      <ion-title  class="title-font">Lista pré-salva</ion-title>
+      <ion-title  class="title-font">Lembretes</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content>
     <ion-list>
       <ion-item *ngFor="let item of savedList">
-        <ion-label (click)="itemAdd(item.name)" class="space-between" [ngClass]="{'crossed' : item.selected}">
-          {{item.name}} 
-          <ion-icon name="add-circle-outline" color="success"></ion-icon>
+        <ion-label (click)="itemAddSaved(item.name, item.qtd, item.unidade)" class="space-between" [ngClass]="{'crossed' : item.selected}">
+          <span>
+            {{item.qtd + item.unidade}} - {{item.name}}
+          </span>
+          <ion-icon *ngIf="!item.selected" name="add-circle-outline" color="success"></ion-icon>
         </ion-label>
       </ion-item>
     </ion-list>
@@ -90,17 +109,16 @@
       </ion-toolbar>
     </ion-header>
     
-    <ion-content class="ion-content-center">
-      <div class="center-modal">
-        <input type="text" class="custom-input mT8" placeholder="Produto" [(ngModel)]="addProduct">
+    <ion-content>
+      <div class="center-modal mT4">
+        <input type="text" class="custom-input mT4" placeholder="Produto" [(ngModel)]="addProduct">
         <input
-          type="text"
-          class="custom-input mT8"
+          class="custom-input mT4"
           placeholder="Preço"
           currencyMask
-          [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+          [options]="{prefix: 'R$ ', thousands: '.', decimal: ','}"
           [(ngModel)]="addPrice">
-        <div class="center mT8" style="flex-direction: row; display: flex;">
+        <div class="center mT4" style="flex-direction: row;">
           <input style="width: 35%;" type="number" min="0" class="custom-input" placeholder="Quantidade" [(ngModel)]="addQtd" required>
           <ion-item>
             <ion-select interface="popover" placeholder="Unidade" [(ngModel)]="addUn">
@@ -131,15 +149,15 @@
     
     <ion-content class="ion-content-center">
       <div class="center-modal">
-        <input type="text" class="custom-input mT8" placeholder="Produto" [(ngModel)]="editProduct">
+        <input type="text" class="custom-input mT4" placeholder="Produto" [(ngModel)]="editProduct">
         <input
           type="text"
-          class="custom-input mT8"
+          class="custom-input mT4"
           placeholder="Preço"
           currencyMask
           [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
           [(ngModel)]="editPrice">
-        <div class="center mT8" style="flex-direction: row; display: flex;">
+        <div class="center mT4" style="flex-direction: row; display: flex;">
           <input style="width: 25%;" type="text" min="0" class="custom-input" placeholder="Quantidade" [(ngModel)]="editQtd" required>
           <ion-item>
             <ion-select interface="popover" placeholder="Unidade" [(ngModel)]="editUn">
@@ -162,7 +180,7 @@
   <ion-toolbar>
     <ion-title>
       <div class="space-between">
-        <span>Total da Compra: {{total | currency:'BRL'}}</span>
+        <span>Total da Compra: {{total | currency: 'BRL'}}</span>
         <span>Quantidade de itens: {{qtdItens}}</span>
       </div>
     </ion-title>
