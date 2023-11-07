@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   API_URL: "http://localhost:3001",
-  ACCESS_KEY_ID: "",
+  ACCESS_KEY_ID: "sadas",
   SECRET_ACCESS_KEY: ""
 };
 
