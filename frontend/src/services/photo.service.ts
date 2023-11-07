@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { Rekognition, RekognitionClient } from "@aws-sdk/client-rekognition";
+import { RekognitionClient } from "@aws-sdk/client-rekognition";
+import { environment } from '../environments/environment';
+
 
 const rekognition = new RekognitionClient({
-  region: 'sa-east-1',
-  credentials: { 
-    accessKeyId: 'AKIAXHHLJ3EEWAACTZXS',
-    secretAccessKey: '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'
+  region: 'sa-east-1'
+  , credentials: { 
+    accessKeyId: environment.ACCESS_KEY_ID,
+    secretAccessKey: environment.SECRET_ACCESS_KEY
   }
 });
 
@@ -18,7 +20,7 @@ export class PhotoService {
   constructor() { }
 
   public async takePicture() {
-    // Take a photo
+    //Take photo
     const photo = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera,

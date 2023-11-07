@@ -247,9 +247,17 @@
     {
       "listName": "Pedrberto",
       "dateTime": "2023-10-30T23:54:49.701Z",
-      "products": [],
+      "products": [
+        {
+          "productId": 1,
+          "name": "Leite Integral",
+          "price": 5.4,
+          "qtd": 1,
+          "unidade": "un"
+        }
+      ],
       "id": 9,
-      "total": 0
+      "total": 5.4
     }
   ]
 }

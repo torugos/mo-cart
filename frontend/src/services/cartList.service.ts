@@ -4,13 +4,14 @@ import { Observable } from 'rxjs';
 import { CartList } from 'src/app/models/cart-list.model';
 import { Products } from 'src/app/models/products.model';
 import { SavedList } from 'src/app/models/saved-list.model';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartListService {
   
-  private baseUrl: string = 'http://localhost:3001';
+  private baseUrl: string = environment.API_URL;
 
   constructor(public http: HttpClient) { }
   
