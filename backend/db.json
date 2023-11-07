@@ -157,19 +157,55 @@
           "price": 0.00008333333333333334,
           "qtd": "300",
           "unidade": "gr"
+        },
+        {
+          "productId": 10,
+          "name": "Amendoin",
+          "price": 1.5,
+          "qtd": 4,
+          "unidade": "un"
         }
       ],
       "id": 2,
       "listName": "Lista do carrefour",
       "dateTime": "2023-09-28T18:46:10.035Z",
-      "total": 1083.4945000000002
+      "total": 1089.4945000000002
     },
     {
       "listName": "Lista do sonda",
       "dateTime": "2023-09-28T18:46:10.035Z",
-      "products": [],
+      "products": [
+        {
+          "productId": 1,
+          "name": "Salsicha",
+          "price": 0.0028399999999999996,
+          "qtd": 2000,
+          "unidade": "gr"
+        },
+        {
+          "productId": 2,
+          "name": "Chocolate",
+          "price": 6.89,
+          "qtd": 1,
+          "unidade": "un"
+        },
+        {
+          "productId": 3,
+          "name": "Limão",
+          "price": 2,
+          "qtd": 5,
+          "unidade": "un"
+        },
+        {
+          "productId": 4,
+          "name": "Queijo",
+          "price": 1,
+          "qtd": 1,
+          "unidade": "un"
+        }
+      ],
       "id": 5,
-      "total": 0
+      "total": 23.57
     },
     {
       "listName": "joanin terça feira",
@@ -213,7 +249,7 @@
       "dateTime": "2023-10-30T23:54:49.701Z",
       "products": [],
       "id": 9,
-      "total": 5
+      "total": 0
     }
   ]
 }

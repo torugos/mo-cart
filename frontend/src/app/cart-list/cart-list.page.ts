@@ -51,7 +51,7 @@ export class CartListPage implements OnInit{
     if(!isOpen)
       this.resetAdd();
     this.isAddModalOpen = isOpen;
-}
+  }
 
   plusOne(productId: number, qtt: number){
     let obj ={
@@ -146,18 +146,19 @@ export class CartListPage implements OnInit{
 
   private refreshTotal(){
     const prices = this.lista.map(obj => {return obj.price * obj.qtd;});  
-    
+    console.log(this.lista)
+
     let soma = 0;
     prices.forEach(element => {soma += element});
 
+    console.log(soma)
+
     this.cartListService.updateTotal(soma, this.idList).subscribe(
-      (response) => console.log(response),
+      () => this.total = soma.toFixed(2),
       (err) => {
         console.log(err)
       }
     )
-  
-    this.total = soma.toFixed(2)
   }
 
   public delete(id: number){
@@ -166,9 +167,10 @@ export class CartListPage implements OnInit{
         if(result.isConfirmed){
           let objIndex = this.lista.findIndex(obj => obj.productId == id)
           this.lista.splice(objIndex, 1)
-          this.cartListService.deleteCartProduct(this.idList, this.lista).subscribe(
+          this.cartListService.deleteCartProduct(this.idList, this.lista, Number(this.total)).subscribe(
             () => {
               this.getAllList();
+              this.refreshTotal();
             },
             (err) => {
               this.alert.errorPopUp("Erro ao excluir produto");
@@ -188,6 +190,7 @@ export class CartListPage implements OnInit{
       this.editPrice = objEdit.price * objEdit.qtd;
     else
       this.editPrice = objEdit.price;
+
     this.editQtd = objEdit.qtd;
     this.editUn = objEdit.unidade;
   }
@@ -216,7 +219,8 @@ export class CartListPage implements OnInit{
       },
       (err) => {
         console.log(err)
-      }
+      },
+      () => this.refreshTotal()
     )
   }
   
@@ -224,9 +228,12 @@ export class CartListPage implements OnInit{
     if((this.addPrice == null || this.addPrice == 0) || this.addProduct == null || (this.addQtd == 0 || this.addQtd == null) || this.addUn == null){
       return this.alert.errorPopUp("Todos os campos devem ser preenchidos");
     }
-    
+
+
     const ids: number[] = this.lista.map(obj => {return obj.productId;});
-    const max = Math.max(...ids)
+    let max = Math.max(...ids)
+    max == -Infinity? max = 0 : max = max;
+    
     
     if(this.addUn == 'gr')
       this.addPrice = this.addPrice / this.addQtd
@@ -238,8 +245,10 @@ export class CartListPage implements OnInit{
       qtd: this.addQtd,
       unidade: this.addUn
     }
+
+    this.lista.splice(max, 0, obj)
     
-    this.cartListService.insertCartList(this.idList, this.lista, obj).subscribe(
+    this.cartListService.insertCartList(this.idList, this.lista).subscribe(
         () => {
         this.alert.successPopUp("Produto inserido com sucesso");
         this.getAllList();
@@ -248,8 +257,10 @@ export class CartListPage implements OnInit{
       },
       (err) => {
         this.alert.errorPopUp("Erro ao inserir produto");
+        this.lista.splice(max, 1)
         console.log(err)
-      }
+      },
+      () => this.refreshTotal()
     )
   }
   

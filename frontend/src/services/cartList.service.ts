@@ -36,18 +36,17 @@ export class CartListService {
     return this.http.patch<HttpResponse<boolean>>(`${this.baseUrl}/cartList/${listId}`, obj)
   }
 
-  insertCartList(listId: number, cartList: Products[], product: Products): Observable<HttpResponse<boolean>>{
-    const newProduct = [...cartList, product] 
-
+  insertCartList(listId: number, cartList: Products[]): Observable<HttpResponse<boolean>>{
     let obj = {
-      products: newProduct
+      products: cartList
     }
     return this.http.patch<HttpResponse<boolean>>(`${this.baseUrl}/cartList/${listId}`, obj)
   }
 
-  deleteCartProduct(listId: number, cartList: Products[]): Observable<HttpResponse<boolean>>{
+  deleteCartProduct(listId: number, cartList: Products[], total: number): Observable<HttpResponse<boolean>>{
     let obj = {
-      products: cartList
+      products: cartList,
+      total: total
     }
     return this.http.patch<HttpResponse<boolean>>(`${this.baseUrl}/cartList/${listId}`, obj)
   }
