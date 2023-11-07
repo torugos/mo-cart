@@ -68,4 +68,7 @@ testem.log
 Thumbs.db
 
 #environments
-.env 
+.env
+constants.env
+environments/constants.env
+frontend/src/environments/constants.env
