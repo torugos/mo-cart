@@ -69,6 +69,6 @@ Thumbs.db
 
 #environments
 .env
-constants.env
-environments/constants.env
-frontend/src/environments/constants.env
+process.env
+environments/process.env
+frontend/src/environments/process.env

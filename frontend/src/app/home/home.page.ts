@@ -5,6 +5,7 @@ import { AlertService } from 'src/services/alert.service';
 import { SavedList } from '../models/saved-list.model';
 import Swiper from 'swiper';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Products } from '../models/products.model';
 
 @Component({
   selector: 'app-home',
@@ -13,18 +14,28 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 
 export class HomePage implements OnInit{
-  public nomeLista!: string;
-  public listId!: number;
-  private editId!: number;
-  public editNomeLista !: string;
+  //Carrinho
+  public marketList = ["Carrefour", "Sonda", "Assaí"]
   public lista : CartList[] = [];
   public savedList : SavedList[] = [];
+  
 
+  public listId!: number;
+  public nomeLista: string| null = null;
+  public marketOption: string | null = null;
+  public newMarket: string| null = null;
+  
+  private editId!: number;
+  public editNomeLista !: string;
+  public editMarketOption: string | null = null
+
+  //Modais
   public isAddListModalOpen = false;
   public isEditListModalOpen = false;
   public isPreviousModalOpen = false;
   public isPreviousEditModalOpen = false;
 
+  //Lembretes
   public newElement: string = '';
   public newElementQtd: number | null = null;
   public newElementUn: string = '';
@@ -32,6 +43,8 @@ export class HomePage implements OnInit{
   public editNewElement: string = '';
   public editNewElementQtd: number | null  = null;
   public editNewElementUn: string = '';
+
+
 
   @ViewChild('swiper') swiperRef?: ElementRef;
   themeToggle = false;
@@ -45,12 +58,9 @@ export class HomePage implements OnInit{
     
   ngOnInit(): void {
     // Use matchMedia to check the user preference
-    const prefersDark = window.matchMedia('(prefers-color-scheme: light)');
-
-    // Initialize the dark theme based on the initial
-    // value of the prefers-color-scheme media query
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    // Initialize the dark theme based on the initial value of the prefers-color-scheme media query
     this.initializeDarkTheme(prefersDark.matches);
-
     // Listen for changes to the prefers-color-scheme media query
     prefersDark.addEventListener('change', (mediaQuery) => this.initializeDarkTheme(mediaQuery.matches));
 
@@ -70,21 +80,25 @@ export class HomePage implements OnInit{
     this.themeToggle = isDark;
     this.toggleDarkTheme(isDark);
   }
-
-  // Listen for the toggle check/uncheck to toggle the dark theme
   toggleChange(ev: any) {
     this.toggleDarkTheme(ev.detail.checked);
   }
-
-  // Add or remove the "dark" class on the document body
   toggleDarkTheme(shouldAdd: boolean) {
     document.body.classList.toggle('dark', shouldAdd);
   }
 
   private getSavedList() {
     this.cartListService.getSavedList().subscribe(
-      (response) => {
+      (response: SavedList[]) => {
         this.savedList = response;
+        
+        response.forEach(element => {
+          this.cartListService.getAllLists().subscribe(
+            (item) =>
+             [].concat(...item.map(item => item.products.filter(product => product.name == element.name)))
+          )  
+        });
+        
       }
     );
   }
@@ -104,7 +118,9 @@ export class HomePage implements OnInit{
   setOpen(isOpen: boolean, modalType: string) {
     switch(modalType){
       case "newList":
-        this.nomeLista = '';
+        this.nomeLista = null;
+        this.marketOption = null;
+        this.newMarket = null;
         this.isAddListModalOpen = isOpen;
       break;
       
@@ -125,9 +141,10 @@ export class HomePage implements OnInit{
     }
   }
 
-  openEditListNameModal(id: number, listName: string){
-    this.editNomeLista = listName;
-    this.listId = id;
+  openEditListNameModal(item: CartList){
+    this.listId = item.id;
+    this.editNomeLista = item.listName;
+    this.editMarketOption = item.market;
     this.setOpen(true, 'editListName')
   }
 
@@ -155,10 +172,14 @@ export class HomePage implements OnInit{
   }
 
   createList(){
-    if(this.nomeLista.length == 0 || this.nomeLista == null)
-      this.alert.errorPopUp("Insira um nome para a lista")
+    if(this.nomeLista == null || this.marketOption == null)
+      this.alert.errorPopUp("Insira um nome para a lista e mercado")
     else{
-      this.cartListService.createNewList(this.nomeLista).subscribe(
+      if(this.newMarket != null){
+        this.marketList.push(this.newMarket)
+        this.marketOption = this.newMarket
+      }
+      this.cartListService.createNewCart(this.nomeLista, this.marketOption).subscribe(
         () => {
           this.setOpen(false, 'newList');
           this.getAllLists();
@@ -170,11 +191,11 @@ export class HomePage implements OnInit{
       )
     }
   }
-  alterListName(){
+  updateCart(){
     if(this.editNomeLista.length == 0 || this.editNomeLista == null)
       this.alert.errorPopUp("Insira um nome para a lista")
     else{
-      this.cartListService.AlterNewListName(this.listId, this.editNomeLista).subscribe(
+      this.cartListService.UpdateCart(this.listId, this.editNomeLista).subscribe(
         () => {
           this.setOpen(false, 'editListName');
           this.getAllLists();

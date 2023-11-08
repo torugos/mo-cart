@@ -6,4 +6,5 @@ export interface CartList {
     dateTime: string;
     products: Products[];
     total: number;
+    market: string;
 }

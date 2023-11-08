@@ -168,11 +168,13 @@
       ],
       "id": 2,
       "listName": "Lista do carrefour",
+      "market": "Carrefour",
       "dateTime": "2023-09-28T18:46:10.035Z",
       "total": 1089.4945000000002
     },
     {
       "listName": "Lista do sonda",
+      "market": "Sonda",
       "dateTime": "2023-09-28T18:46:10.035Z",
       "products": [
         {
@@ -209,6 +211,7 @@
     },
     {
       "listName": "joanin terça feira",
+      "market": "Joanin",
       "dateTime": "2023-09-28T20:49:03.225Z",
       "products": [
         {
@@ -224,6 +227,7 @@
     },
     {
       "listName": "Assai",
+      "market": "Assaí",
       "dateTime": "2023-10-13T14:35:40.248Z",
       "products": [
         {
@@ -246,18 +250,19 @@
     },
     {
       "listName": "Pedrberto",
+      "market": "Carrefour",
       "dateTime": "2023-10-30T23:54:49.701Z",
       "products": [
         {
           "productId": 1,
-          "name": "Leite Integral",
-          "price": 5.4,
-          "qtd": 1,
+          "name": "Chocolate",
+          "price": 5.6,
+          "qtd": 2,
           "unidade": "un"
         }
       ],
       "id": 9,
-      "total": 5.4
+      "total": 11.2
     }
   ]
 }

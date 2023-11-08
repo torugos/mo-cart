@@ -24,14 +24,20 @@
         </ion-card-header>
 
         <ion-card-content>
-          <ion-card-subtitle class="space-between"><span>Criada em: {{item.dateTime | date:"dd/MM/yyyy HH:mm"}}</span> <span>#{{item.id}}</span></ion-card-subtitle>
-          <ion-card-subtitle>Total da compra: {{item.total | currency: 'BRL'}}</ion-card-subtitle>
+          <ion-card-subtitle class="space-between">
+            <span>Criada em: {{item.dateTime | date:"dd/MM/yyyy HH:mm"}}</span>
+            <span>#{{item.id}}</span>
+          </ion-card-subtitle>
+          <ion-card-subtitle class="space-between">
+            <span>Total da compra: {{item.total | currency: 'BRL'}}</span>
+            <span>Mercado: {{item.market}}</span>
+          </ion-card-subtitle>
           <ion-buttons class="center">
             <ion-button color="primary" [routerLink]="['/cart-list', item.id]">
               <span>Abrir</span> 
               <ion-icon name="open-outline"></ion-icon>
             </ion-button>
-            <ion-button title="editar nome" (click)="openEditListNameModal(item.id, item.listName)" side="top" alignment="center">
+            <ion-button title="editar nome" (click)="openEditListNameModal(item)" side="top" alignment="center">
               <ion-icon name="create-outline"></ion-icon>
             </ion-button>
             <ion-button color="danger" (click)="deleteCartList(item.id)" title="deletar">
@@ -44,7 +50,7 @@
   </swiper-container>
   <ion-button expand="block" style="margin-left: 10px; margin-right: 10px;" (click)="setOpen(true, 'newList')">Cria novo carrinho de compras</ion-button>
 
-  <!-- Modal de nova lista -->
+  <!-- Modal de novo Carrinho de compras -->
   <ion-modal [isOpen]="isAddListModalOpen" [backdropDismiss]="false">
     <ng-template>
       <ion-header>
@@ -57,26 +63,34 @@
       </ion-header>
 
       <ion-content class="ion-padding">
-        <div class="center">
+        <div class="center-modal">
           <input type="text" class="custom-input" placeholder="Nome da Lista" [(ngModel)]="nomeLista">
-          <ion-datetime-button datetime="datetime" style="pointer-events:none; margin-top: 4px;"></ion-datetime-button>
+          <div class="center">
+            <ion-list>
+              <ion-item>
+                <ion-select interface="popover" placeholder="Selecione um Mercado" [(ngModel)]="marketOption">
+                  <ion-select-option *ngFor="let market of marketList" [value]="market">{{market}}</ion-select-option>
+                  <ion-select-option value="Outro">Outro</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-list>
+            <input type="text" class="custom-input" placeholder="Novo nome de mercado" [(ngModel)]="newMarket" *ngIf="marketOption == 'Outro'">
+          </div>
+          <ion-datetime-button class="mT4" datetime="datetime" style="pointer-events:none;"></ion-datetime-button>
           <ion-modal [keepContentsMounted]="true">
             <ng-template>
-              <ion-datetime id="datetime"  locale="pt-BR"></ion-datetime>
+              <ion-datetime id="datetime" locale="pt-BR"></ion-datetime>
             </ng-template>
           </ion-modal>
+          <div class="center mT4">
+            <ion-button class="center" (click)="createList()">Criar Carrinho</ion-button>
+          </div>
         </div>
       </ion-content>
-
-      <ion-footer class="center">
-        <ion-toolbar class="center">
-            <ion-button class="center" (click)="createList()">Criar</ion-button>
-        </ion-toolbar>
-      </ion-footer>
     </ng-template>
   </ion-modal>  
 
-  <!-- Modal de edição de nome da lista -->
+  <!-- Modal de edição do Carrinho -->
   <ion-modal [isOpen]="isEditListModalOpen" [backdropDismiss]="false">
     <ng-template>
       <ion-header>
@@ -91,9 +105,20 @@
       <ion-content class="ion-padding">
         <div class="center-modal">
           <input type="text" class="custom-input" [(ngModel)]="editNomeLista">
+          <div class="center">
+            <ion-list>
+              <ion-item>
+                <ion-select interface="popover" placeholder="Selecione um Mercado" [(ngModel)]="editMarketOption">
+                  <ion-select-option *ngFor="let market of marketList" [value]="market">{{market}}</ion-select-option>
+                  <ion-select-option value="Outro">Outro</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-list>
+            <input type="text" class="custom-input" placeholder="Novo nome de mercado" [(ngModel)]="newMarket" *ngIf="editMarketOption == 'Outro'">
+          </div>
 
           <div class="center mT4">
-            <ion-button (click)="alterListName()">Alterar</ion-button>
+            <ion-button (click)="updateCart()">Alterar</ion-button>
           </div>
         </div>
       </ion-content>

@@ -52,16 +52,18 @@ export class CartListService {
     return this.http.patch<HttpResponse<boolean>>(`${this.baseUrl}/cartList/${listId}`, obj)
   }
 
-  createNewList(listName: string): Observable<HttpResponse<boolean>>{
+  createNewCart(listName: string, marketOption: string): Observable<HttpResponse<boolean>>{
     let obj = {
       listName: listName,
       dateTime: new Date(),
-      products: []
+      products: [],
+      total: 0,
+      market: marketOption
     }
 
     return this.http.post<HttpResponse<boolean>>(`${this.baseUrl}/cartList`, obj)
   }
-  AlterNewListName(listId:number, listName: string): Observable<HttpResponse<boolean>>{
+  UpdateCart(listId:number, listName: string): Observable<HttpResponse<boolean>>{
     let obj ={
       listName: listName
     }
