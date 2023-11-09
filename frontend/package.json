@@ -30,6 +30,7 @@
     "@capacitor/status-bar": "5.0.6",
     "@ionic/angular": "^7.4.0",
     "@ionic/pwa-elements": "^3.2.2",
+    "dotenv": "^16.3.1",
     "ionicons": "^7.0.0",
     "ngx-currency": "^4.0.0",
     "rxjs": "~7.8.0",

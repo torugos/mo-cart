@@ -3,11 +3,10 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { RekognitionClient } from "@aws-sdk/client-rekognition";
 import { environment } from '../environments/environment';
 
-
 const rekognition = new RekognitionClient({
-  region: 'sa-east-1'
-  , credentials: { 
-    accessKeyId: environment.ACCESS_KEY_ID,
+  region: 'sa-east-1', 
+  credentials: { 
+    accessKeyId: process.env.DATABASE_URL,
     secretAccessKey: environment.SECRET_ACCESS_KEY
   }
 });
