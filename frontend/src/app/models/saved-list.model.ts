@@ -3,6 +3,6 @@ export interface SavedList {
     name: string;
     qtd: number;
     unidade: string;
-    bestPrice: string;
+    cheapestMarket: string;
     selected: boolean;
 }

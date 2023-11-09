@@ -1,7 +1,7 @@
 {
   "savedList": [
     {
-      "name": "Pão Pulman",
+      "name": "Pão Pullman",
       "id": 1,
       "qtd": 3,
       "unidade": "un",
@@ -117,60 +117,19 @@
     {
       "products": [
         {
-          "productId": 2,
-          "name": "detergente",
-          "price": 3.5,
-          "qtd": 9,
-          "unidade": "un"
-        },
-        {
-          "productId": 3,
-          "name": "panetone",
-          "price": 27.8,
-          "qtd": 37,
-          "unidade": "un"
-        },
-        {
-          "productId": 4,
-          "name": "presunto",
-          "price": 0.06153846153846154,
-          "qtd": 156,
-          "unidade": "gr"
-        },
-        {
-          "productId": 7,
-          "name": "Queijo",
-          "price": 0.0359,
-          "qtd": 105,
-          "unidade": "gr"
-        },
-        {
-          "productId": 8,
-          "name": "Sabonete ",
-          "price": 2.5,
-          "qtd": 4,
-          "unidade": "un"
-        },
-        {
-          "productId": 9,
-          "name": "Presunto Parma",
-          "price": 0.00008333333333333334,
-          "qtd": "300",
-          "unidade": "gr"
-        },
-        {
-          "productId": 10,
-          "name": "Amendoin",
-          "price": 1.5,
-          "qtd": 4,
-          "unidade": "un"
+          "productId": 1,
+          "name": "Pão Pullman",
+          "price": 3.2,
+          "qtd": 3,
+          "unidade": "un",
+          "market": "Carrefour"
         }
       ],
       "id": 2,
       "listName": "Lista do carrefour",
       "market": "Carrefour",
       "dateTime": "2023-09-28T18:46:10.035Z",
-      "total": 1089.4945000000002
+      "total": 9.600000000000001
     },
     {
       "listName": "Lista do sonda",
@@ -179,35 +138,39 @@
       "products": [
         {
           "productId": 1,
-          "name": "Salsicha",
-          "price": 0.0028399999999999996,
-          "qtd": 2000,
-          "unidade": "gr"
+          "name": "Pão Pullman",
+          "price": 10,
+          "qtd": 2,
+          "unidade": "un",
+          "market": "Sonda"
         },
         {
           "productId": 2,
-          "name": "Chocolate",
-          "price": 6.89,
+          "name": "Leite Integral",
+          "price": 4,
           "qtd": 1,
-          "unidade": "un"
+          "unidade": "un",
+          "market": "Sonda"
         },
         {
           "productId": 3,
           "name": "Limão",
           "price": 2,
           "qtd": 5,
-          "unidade": "un"
+          "unidade": "un",
+          "market": "Sonda"
         },
         {
           "productId": 4,
-          "name": "Queijo",
-          "price": 1,
+          "name": "Feijão ",
+          "price": 5,
           "qtd": 1,
-          "unidade": "un"
+          "unidade": "un",
+          "market": "Sonda"
         }
       ],
       "id": 5,
-      "total": 23.57
+      "total": 39
     },
     {
       "listName": "joanin terça feira",
@@ -215,54 +178,24 @@
       "dateTime": "2023-09-28T20:49:03.225Z",
       "products": [
         {
-          "productId": null,
-          "name": "Pastel",
-          "price": 5,
-          "qtd": 3,
-          "unidade": "un"
+          "productId": 1,
+          "name": "pão pullman",
+          "price": 3.12,
+          "qtd": 1,
+          "unidade": "un",
+          "market": "Joanin"
+        },
+        {
+          "productId": 2,
+          "name": "Arroz",
+          "price": 4.32,
+          "qtd": 1,
+          "unidade": "un",
+          "market": "Joanin"
         }
       ],
       "id": 6,
-      "total": 15
-    },
-    {
-      "listName": "Assai",
-      "market": "Assaí",
-      "dateTime": "2023-10-13T14:35:40.248Z",
-      "products": [
-        {
-          "productId": null,
-          "name": "Sabonete ",
-          "price": 3.5,
-          "qtd": 25,
-          "unidade": "un"
-        },
-        {
-          "productId": 1,
-          "name": "Amendoin",
-          "price": 0.045,
-          "qtd": 131,
-          "unidade": "gr"
-        }
-      ],
-      "id": 8,
-      "total": 93.395
-    },
-    {
-      "listName": "Pedrberto",
-      "market": "Carrefour",
-      "dateTime": "2023-10-30T23:54:49.701Z",
-      "products": [
-        {
-          "productId": 1,
-          "name": "Chocolate",
-          "price": 5.6,
-          "qtd": 2,
-          "unidade": "un"
-        }
-      ],
-      "id": 9,
-      "total": 11.2
+      "total": 7.44
     }
   ]
 }

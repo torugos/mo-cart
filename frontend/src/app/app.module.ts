@@ -11,12 +11,14 @@ import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
 
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+import { MarketNullPipe } from '../pipes/market-null.pipe';
 
 registerLocaleData(localePt, 'pt-BR');
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MarketNullPipe
   ],
   imports: [
     BrowserModule, 
@@ -29,6 +31,9 @@ registerLocaleData(localePt, 'pt-BR');
     {provide: LOCALE_ID, useValue: 'pt-BR'}
   ],
   bootstrap: [AppComponent],
+  exports: [
+   MarketNullPipe
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

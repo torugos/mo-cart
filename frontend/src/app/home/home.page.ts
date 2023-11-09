@@ -6,6 +6,8 @@ import { SavedList } from '../models/saved-list.model';
 import Swiper from 'swiper';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Products } from '../models/products.model';
+import { map, min, switchMap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +18,7 @@ import { Products } from '../models/products.model';
 export class HomePage implements OnInit{
   //Carrinho
   public marketList = ["Carrefour", "Sonda", "Assaí"]
+  public bestBuy!: string;
   public lista : CartList[] = [];
   public savedList : SavedList[] = [];
   
@@ -88,21 +91,73 @@ export class HomePage implements OnInit{
   }
 
   private getSavedList() {
-    this.cartListService.getSavedList().subscribe(
-      (response: SavedList[]) => {
+    this.cartListService.getSavedList().pipe(
+      switchMap((response: SavedList[]) => {
         this.savedList = response;
-        
-        response.forEach(element => {
-          this.cartListService.getAllLists().subscribe(
-            (item) =>
-             [].concat(...item.map(item => item.products.filter(product => product.name == element.name)))
-          )  
-        });
-        
-      }
+        const observables = response.map(savedElement =>
+          this.cartListService.getAllLists().pipe(
+            map((lists: any[]) => {
+              const matchingProducts: Products[] = [].concat(...lists.map(list => list.products.filter((product: Products) => product.name.toUpperCase() == savedElement.name.toUpperCase())));
+              if (matchingProducts.length > 0) {
+                const productWithLowestPrice = matchingProducts.reduce((prev, current) => (prev.price < current.price ? prev : current));
+                savedElement.cheapestMarket = productWithLowestPrice.market;
+              }
+            })
+          )
+        );
+        return forkJoin(observables);
+      })
+      ).subscribe(
+        () => {
+          const cheapestMarkets: string[] = this.savedList
+                .map((item) => item.cheapestMarket)
+                .filter((market) => market !== null && market !== undefined);
+
+          var melhorCompra: string[] = this.findMostFrequentElements(cheapestMarkets);
+          console.log(melhorCompra)
+
+          if(melhorCompra.length > 1){
+            this.bestBuy = melhorCompra.join('/')
+          }
+          else
+            this.bestBuy = melhorCompra[0];
+        },
+        (err) => {
+          console.error(err);
+        }
     );
   }
 
+  private findMostFrequentElements(arr: string[]){
+    if (arr.length === 0) {
+      return [];
+    }
+  
+    const frequencyMap: { [key: string]: number } = {};
+    let highestFrequency = 1; // Inicializa com frequência 1
+  
+    for (const element of arr) {
+      if (frequencyMap[element as string]) {
+        frequencyMap[element as string]++;
+      } else {
+        frequencyMap[element as string] = 1;
+      }
+  
+      if (frequencyMap[element as string] > highestFrequency) {
+        highestFrequency = frequencyMap[element as string];
+      }
+    }
+  
+    const mostFrequentElements = [];
+    for (const element in frequencyMap) {
+      if (frequencyMap[element] === highestFrequency) {
+        mostFrequentElements.push(element as any);
+      }
+    }
+  
+    return mostFrequentElements;
+  }
+  
   private getAllLists() {
     this.cartListService.getAllLists().pipe().subscribe({
       next: (response) => {
@@ -165,7 +220,7 @@ export class HomePage implements OnInit{
               this.alert.successPopUp("Lista excluida com sucesso");
               this.getAllLists();
             },
-            (err) => console.log(err)
+            (err) => console.error(err)
           );
         }
       })
@@ -186,7 +241,7 @@ export class HomePage implements OnInit{
         },
         (err) => {
           this.alert.errorPopUp("Erro ao criar lista");
-          console.log(err)
+          console.error(err)
         }
       )
     }
@@ -202,7 +257,7 @@ export class HomePage implements OnInit{
         },
         (err) => {
           this.alert.errorPopUp("Erro ao alterar nome da lista");
-          console.log(err)
+          console.error(err)
         }
       )
     }
@@ -219,7 +274,7 @@ export class HomePage implements OnInit{
         this.setOpen(false, 'previous');
       },
       (err) => {
-        console.log(err);
+        console.error(err);
       }
     )
   }
@@ -234,7 +289,7 @@ export class HomePage implements OnInit{
               this.getSavedList();
             },
             (err) => {
-              console.log(err)
+              console.error(err)
             }
         )
       })
@@ -251,7 +306,7 @@ export class HomePage implements OnInit{
         },
         (err) => {
           this.alert.errorPopUp("Erro ao alterar nome do item");
-          console.log(err)
+          console.error(err)
         }
       )
     }

@@ -4,4 +4,5 @@ export interface Products {
     price: number;
     qtd: number;
     unidade: string;
+    market: string;
 }

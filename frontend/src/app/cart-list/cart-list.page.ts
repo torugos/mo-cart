@@ -24,6 +24,7 @@ export class CartListPage implements OnInit{
   public savedList: SavedList[] = [];
   public total: string = '';
   public qtdItens: number = 0;
+  private market!: string;
   private idList: number = Number(this.route.snapshot.paramMap.get('id')); 
   
   //Add config
@@ -112,7 +113,8 @@ export class CartListPage implements OnInit{
       (response) => {
         this.nomeLista = response.listName;
         this.lista = response.products;
-        this.total = response.total.toFixed(2)
+        this.total = response.total.toFixed(2);
+        this.market = response.market;
         this.refreshQtdItens();
         this.refreshSavedList();
       });
@@ -243,7 +245,8 @@ export class CartListPage implements OnInit{
       name: this.addProduct,
       price: this.addPrice,
       qtd: this.addQtd,
-      unidade: this.addUn
+      unidade: this.addUn,
+      market: this.market
     }
 
     this.lista.splice(max, 0, obj)

@@ -127,20 +127,25 @@
 
   <hr/>
 
-  <ion-title style="padding-top: 8px;">Lembretes</ion-title>
+  <div style="padding-top: 8px; display: flex; flex-wrap: wrap; justify-content: space-between;">
+    <ion-title>Lembretes</ion-title>
+    <ion-title style="text-align: end;">Melhor Compra: {{bestBuy}}</ion-title>
+  </div>
 
   <ion-grid>
     <ion-row class="table-header table-row">
       <ion-col class="title-font center" size-md="1.5" size-sm="2">Quantidade</ion-col>
       <ion-col class="title-font" size.sm="3" size.md="2">Produto</ion-col>
-      <ion-col class="title-font" offset-sm="5" offset-md="6.5" size="2">Ações</ion-col>
+      <ion-col class="title-font" size.sm="3" size.md="2">Melhor Preço</ion-col>
+      <ion-col class="title-font" offset-sm="5" offset-md="4.5" size="2">Ações</ion-col>
     </ion-row>
 
     <ion-grid class="tabela-fixada-kiosk">
       <ion-row *ngFor="let item of savedList" class="table-row">
         <ion-col size-md="1.5" size-sm="2" class="center">{{item.qtd}}{{item.unidade}}</ion-col>
         <ion-col size.sm="3" size.md="2">{{item.name}}</ion-col>
-        <ion-col offset.sm="4" size="3" offset-md="5.5">
+        <ion-col size.sm="3" size.md="2">{{item.cheapestMarket | marketNull}}</ion-col>
+        <ion-col offset.sm="4" size="3" offset-md="3.5">
           <ion-buttons class="center">
             <ion-button color="primary" (click)="openEditPreviousNameModal(item.id, item.name, item.qtd, item.unidade)">Editar</ion-button>
             <ion-button color="danger" (click)="deletePreviousList(item.id)">Excluir</ion-button>
