@@ -11,7 +11,7 @@
     <div class="v-center">
       <ion-img
         style="width: 15%;"
-        src="../../assets/img/hand_slide.png" 
+        src="../../assets/img/hand-slide-right.png" 
         alt="Deslize para a direita."
       ></ion-img>
       <h1 class="alt-title">Deslize o canto da tela, para acessar a lista de Lembretes!</h1>
@@ -59,6 +59,20 @@
       </ion-item-sliding>
     </ion-row>
   </ion-grid>
+
+  
+  <ion-grid style="width: 95%;" *ngIf="lista.length == 1">
+    <ion-row> arraste para a esquerda para editar a linha ou arraste para a direita para deletar </ion-row>
+    <div class="v-center">
+      <ion-img
+        style="width: 15%;"
+        src="../../assets/img/hand-slide-right.png" 
+        alt="Deslize para a direita."
+      ></ion-img>
+      <h1 class="alt-title">Deslize as linhas da tabela para a direita e acesse o campo de edição!</h1>
+    </div>
+  </ion-grid>
+  
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button>

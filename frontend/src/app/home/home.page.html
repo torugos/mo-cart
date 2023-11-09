@@ -129,7 +129,7 @@
 
   <div style="padding-top: 8px; display: flex; flex-wrap: wrap; justify-content: space-between;">
     <ion-title>Lembretes</ion-title>
-    <ion-title style="text-align: end;">Melhor Compra: {{bestBuy}}</ion-title>
+    <ion-title style="text-align: end;">Melhor Compra: {{bestBuy | marketNull}}</ion-title>
   </div>
 
   <ion-grid>
@@ -137,14 +137,14 @@
       <ion-col class="title-font center" size-md="1.5" size-sm="2">Quantidade</ion-col>
       <ion-col class="title-font" size.sm="3" size.md="2">Produto</ion-col>
       <ion-col class="title-font" size.sm="3" size.md="2">Melhor Preço</ion-col>
-      <ion-col class="title-font" offset-sm="5" offset-md="4.5" size="2">Ações</ion-col>
+      <ion-col class="title-font" offset-sm="1" offset-md="4.5" size="2">Ações</ion-col>
     </ion-row>
 
     <ion-grid class="tabela-fixada-kiosk">
       <ion-row *ngFor="let item of savedList" class="table-row">
         <ion-col size-md="1.5" size-sm="2" class="center">{{item.qtd}}{{item.unidade}}</ion-col>
         <ion-col size.sm="3" size.md="2">{{item.name}}</ion-col>
-        <ion-col size.sm="3" size.md="2">{{item.cheapestMarket | marketNull}}</ion-col>
+        <ion-col size.sm="3" size.md="2">{{item.cheapestMarket }}</ion-col>
         <ion-col offset.sm="4" size="3" offset-md="3.5">
           <ion-buttons class="center">
             <ion-button color="primary" (click)="openEditPreviousNameModal(item.id, item.name, item.qtd, item.unidade)">Editar</ion-button>
@@ -170,7 +170,7 @@
 
     <ion-content class="ion-padding">
       <div class="center-modal">
-        <input type="text" class="custom-input" [(ngModel)]="editNewElement">
+        <input type="text" class="custom-input" [(ngModel)]="editNewElement" maxlength="21">
         <div class="center mT4" style="flex-direction: row; display: flex;">
           <input style="width: 35%;" type="number" min="0" class="custom-input" placeholder="Quantidade" [(ngModel)]="editNewElementQtd" required>
           <ion-item>
@@ -202,7 +202,7 @@
 
       <ion-content class="ion-padding">
         <div class="center">
-          <input type="text" class="custom-input" placeholder="Produto" [(ngModel)]="newElement">
+          <input type="text" class="custom-input" placeholder="Produto" [(ngModel)]="newElement" maxlength="21">
         </div>
         <div class="center mT4" style="flex-direction: row; display: flex;">
           <input style="width: 35%;" type="number" min="0" class="custom-input" placeholder="Quantidade" [(ngModel)]="newElementQtd" required>
