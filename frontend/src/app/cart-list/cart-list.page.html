@@ -62,15 +62,24 @@
 
   
   <ion-grid style="width: 95%;" *ngIf="lista.length == 1">
-    <ion-row> arraste para a esquerda para editar a linha ou arraste para a direita para deletar </ion-row>
-    <div class="v-center">
-      <ion-img
-        style="width: 15%;"
-        src="../../assets/img/hand-slide-right.png" 
-        alt="Deslize para a direita."
-      ></ion-img>
-      <h1 class="alt-title">Deslize as linhas da tabela para a direita e acesse o campo de edição!</h1>
-    </div>
+    <ion-row>
+      <ion-col style="display: flex; flex-direction: row;">
+        <ion-img
+          src="../../assets/img/hand-slide-right.png" 
+          alt="Deslize para a direita.">
+        </ion-img>
+        <h1 class="alt-title text-view-sm">Deslize o item para editar!</h1>
+        <h1 class="alt-title text-view-md">Deslize o item para a direita para editar!</h1>
+      </ion-col>
+      <ion-col style="justify-content: flex-end; display: flex; flex-direction: row;">
+        <h1 class="alt-title text-view-sm">Deslize o item para excluir!</h1>
+        <h1 class="alt-title text-view-md">Deslize o item para a esquerda para excluir!</h1>
+        <ion-img
+          src="../../assets/img/hand-slide-left.png" 
+          alt="Deslize para a direita.">
+        </ion-img>
+      </ion-col>
+    </ion-row>
   </ion-grid>
   
 

@@ -74,12 +74,7 @@
     font-weight: bolder;
 }
 
-.alt-title{
-    font-family: "Times New Roman", Times, serif;
-    padding: 8px 0px 0px 16px; 
-    font-size: 22px;
-    font-weight: bolder;
-}
+
 
 .flex-end{
     position: fixed;
@@ -114,6 +109,24 @@ ion-icon{
         --border-radius: 6px;
         --box-shadow: 0 28px 48px rgba(255, 255, 255, 0.2);
     }
+
+    ion-img{
+        width:20%
+    }
+    .text-view-md{
+        display:none;
+    }
+ 
+    .text-view-sm{
+        display:inline-block;
+    }
+
+    .alt-title{
+        font-family: "Times New Roman", Times, serif;
+        padding: 8px 0px 0px 16px; 
+        font-size: 16px;
+        font-weight: bolder;
+    }
 }
 @media screen and (min-width: 1000px) {
     ion-modal{
@@ -122,5 +135,22 @@ ion-icon{
         --height: 45%;
         --border-radius: 6px;
         --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+    }
+    ion-img{
+        width:10%
+    }
+    .text-view-md{
+        display:inline-block;
+    }
+ 
+    .text-view-sm{
+        display:none;
+    }
+
+    .alt-title{
+        font-family: "Times New Roman", Times, serif;
+        padding: 8px 0px 0px 16px; 
+        font-size: 28px;
+        font-weight: bolder;
     }
 }

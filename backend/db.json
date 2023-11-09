@@ -118,9 +118,9 @@
       "products": [
         {
           "productId": 1,
-          "name": "Pão Pullman",
-          "price": 3.2,
-          "qtd": 3,
+          "name": "Queijo",
+          "price": 4.57,
+          "qtd": 1,
           "unidade": "un",
           "market": "Carrefour"
         }
@@ -129,7 +129,7 @@
       "listName": "Lista do carrefour",
       "market": "Carrefour",
       "dateTime": "2023-09-28T18:46:10.035Z",
-      "total": 9.600000000000001
+      "total": 4.57
     },
     {
       "listName": "Lista do sonda",
