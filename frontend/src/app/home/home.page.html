@@ -144,7 +144,7 @@
       <ion-row *ngFor="let item of savedList" class="table-row">
         <ion-col size-md="1.5" size-sm="2" class="center">{{item.qtd}}{{item.unidade}}</ion-col>
         <ion-col size.sm="3" size.md="2">{{item.name}}</ion-col>
-        <ion-col size.sm="3" size.md="2">{{item.cheapestMarket }}</ion-col>
+        <ion-col size.sm="3" size.md="2">{{item.cheapestMarket | marketNull}}</ion-col>
         <ion-col offset.sm="4" size="3" offset-md="3.5">
           <ion-buttons class="center">
             <ion-button color="primary" (click)="openEditPreviousNameModal(item.id, item.name, item.qtd, item.unidade)">Editar</ion-button>
@@ -201,25 +201,22 @@
       </ion-header>
 
       <ion-content class="ion-padding">
-        <div class="center">
+        <div class="center-modal">
           <input type="text" class="custom-input" placeholder="Produto" [(ngModel)]="newElement" maxlength="21">
-        </div>
-        <div class="center mT4" style="flex-direction: row; display: flex;">
-          <input style="width: 35%;" type="number" min="0" class="custom-input" placeholder="Quantidade" [(ngModel)]="newElementQtd" required>
-          <ion-item>
-            <ion-select interface="popover" placeholder="Unidade" [(ngModel)]="newElementUn">
-              <ion-select-option value="un">Unidade</ion-select-option>
-              <ion-select-option value="gr">Grama</ion-select-option>
-            </ion-select>
-          </ion-item>
-        </div>
-      </ion-content>
-
-      <ion-footer class="center">
-        <ion-toolbar class="center">
+          <div class="center mT4" style="flex-direction: row; display: flex;">
+            <input style="width: 35%;" type="number" min="0" class="custom-input" placeholder="Quantidade" [(ngModel)]="newElementQtd" required>
+            <ion-item>
+              <ion-select interface="popover" placeholder="Unidade" [(ngModel)]="newElementUn">
+                <ion-select-option value="un">Unidade</ion-select-option>
+                <ion-select-option value="gr">Grama</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </div>
+          <div class="center mT4">
             <ion-button class="center" (click)="addPreviousList()">Adicionar</ion-button>
-        </ion-toolbar>
-      </ion-footer>
+          </div>
+        </div>
+      </ion-content>]
     </ng-template>
   </ion-modal>  
 

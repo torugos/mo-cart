@@ -11,14 +11,12 @@ import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
 
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
-import { MarketNullPipe } from 'src/pipes/market-null.pipe';
 
 registerLocaleData(localePt, 'pt-BR');
 
 @NgModule({
   declarations: [
-    AppComponent,
-    MarketNullPipe
+    AppComponent
   ],
   imports: [
     BrowserModule, 
@@ -30,8 +28,8 @@ registerLocaleData(localePt, 'pt-BR');
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {provide: LOCALE_ID, useValue: 'pt-BR'}
   ],
+  exports:[AppComponent],
   bootstrap: [AppComponent],
-  exports:[ MarketNullPipe ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

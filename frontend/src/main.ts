@@ -6,8 +6,11 @@ import { environment } from './environments/environment';
 
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
-import * as dotenv from 'dotenv';
-dotenv.config();
+// import 'dotenv/config'
+// require('dotenv').config();
+
+// import * as dotenv from 'dotenv'
+// dotenv.config()
 
 if (environment.production) {
   enableProdMode();

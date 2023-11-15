@@ -118,8 +118,8 @@
       "products": [
         {
           "productId": 1,
-          "name": "Queijo",
-          "price": 4.57,
+          "name": "Chocolate",
+          "price": 3.25,
           "qtd": 1,
           "unidade": "un",
           "market": "Carrefour"
@@ -129,7 +129,7 @@
       "listName": "Lista do carrefour",
       "market": "Carrefour",
       "dateTime": "2023-09-28T18:46:10.035Z",
-      "total": 4.57
+      "total": 3.25
     },
     {
       "listName": "Lista do sonda",
@@ -164,13 +164,21 @@
           "productId": 4,
           "name": "Feijão ",
           "price": 5,
-          "qtd": 1,
+          "qtd": 2,
           "unidade": "un",
+          "market": "Sonda"
+        },
+        {
+          "productId": 5,
+          "name": "Mortadela",
+          "price": 0.0224,
+          "qtd": 260,
+          "unidade": "gr",
           "market": "Sonda"
         }
       ],
       "id": 5,
-      "total": 39
+      "total": 49.824
     },
     {
       "listName": "joanin terça feira",
@@ -192,10 +200,18 @@
           "qtd": 1,
           "unidade": "un",
           "market": "Joanin"
+        },
+        {
+          "productId": 3,
+          "name": "Queijo",
+          "price": 4.68,
+          "qtd": 1,
+          "unidade": "un",
+          "market": "Joanin"
         }
       ],
       "id": 6,
-      "total": 7.44
+      "total": 12.120000000000001
     }
   ]
 }

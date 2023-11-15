@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { RekognitionClient } from "@aws-sdk/client-rekognition";
 import { environment } from '../environments/environment';
+import { RekognitionClient, DetectTextCommand, DetectTextCommandInput } from "@aws-sdk/client-rekognition";
 
-const rekognition = new RekognitionClient({
-  region: 'sa-east-1', 
+const client = new RekognitionClient({
+  region: 'us-west-2', 
   credentials: { 
-    accessKeyId: process.env.DATABASE_URL,
+    accessKeyId: environment.ACCESS_KEY_ID,
     secretAccessKey: environment.SECRET_ACCESS_KEY
   }
 });
@@ -17,6 +17,15 @@ const rekognition = new RekognitionClient({
 export class PhotoService {
 
   constructor() { }
+
+  public base64ToArrayBuffer(base64: string) {
+    var binaryString = atob(base64);
+    var bytes = new Uint8Array(binaryString.length);
+    for (var i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes.buffer;
+}
 
   public async takePicture() {
     //Take photo
@@ -38,6 +47,25 @@ export class PhotoService {
             const base64Data = reader.result as string; // Converter o resultado para uma string
             console.log(base64Data);
 
+            var teste = this.base64ToArrayBuffer(base64Data)
+            console.log(teste)
+            // var toUint8Array = require('base64-to-uint8array')
+            // let arr = toUint8Array(base64Data)
+            // console.log(arr) // the bytes for "hello world"
+
+
+            // const input : DetectTextCommandInput = {
+            //   Image: {Bytes: arr}
+            // }
+            // const command = new DetectTextCommand(input)
+              
+            // try {
+            //   let data = client.send(command);
+            //   console.log(data)
+            // } 
+            // catch (error) {
+            //   console.error(error)
+            // }
           };
           reader.readAsDataURL(blob);
         })

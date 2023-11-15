@@ -47,8 +47,6 @@ export class HomePage implements OnInit{
   public editNewElementQtd: number | null  = null;
   public editNewElementUn: string = '';
 
-
-
   @ViewChild('swiper') swiperRef?: ElementRef;
   themeToggle = false;
 

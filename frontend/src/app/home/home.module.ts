@@ -14,7 +14,10 @@ import { MarketNullPipe } from 'src/pipes/market-null.pipe';
     IonicModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage, MarketNullPipe],
+  declarations: [
+    HomePage, 
+    MarketNullPipe
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePageModule {}
