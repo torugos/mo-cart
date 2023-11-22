@@ -231,7 +231,6 @@ export class CartListPage implements OnInit{
       return this.alert.errorPopUp("Todos os campos devem ser preenchidos");
     }
 
-
     const ids: number[] = this.lista.map(obj => {return obj.productId;});
     let max = Math.max(...ids)
     max == -Infinity? max = 0 : max = max;
