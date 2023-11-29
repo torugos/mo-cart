@@ -16,7 +16,7 @@ export class CartListPage implements OnInit{
   constructor(
     private route: ActivatedRoute,
     private alert: AlertService,
-    private photo: PhotoService,
+    public photoService: PhotoService,
     private cartListService: CartListService) { }
   
   public nomeLista: string = '';
@@ -36,17 +36,22 @@ export class CartListPage implements OnInit{
   
   //Edit config
   public isEditModalOpen = false;
+  public isPhotoModalOpen = false;
   public editProductId: number | null = null;
   public editProduct: string | null = null;
   public editPrice: number | null = null;
   public editQtd: number | null = null;
   public editUn: string| null = null;
 
+  public viewPhoto: string | null = null;
+  public photoUrl: string | null = null;
+
   ngOnInit(){
     this.getAllList();
     this.getSavedList();
   }
 
+  setPhotoOpen(isOpen: boolean){this.isPhotoModalOpen = isOpen;}
   setEditOpen(isOpen: boolean){this.isEditModalOpen = isOpen;}
   setAddOpen(isOpen: boolean){
     if(!isOpen)
@@ -99,6 +104,12 @@ export class CartListPage implements OnInit{
         this.refreshSavedList();
       }
     )
+  }
+
+  itemViewPhoto(photo: string | null){
+    this.setPhotoOpen(true);
+    if(photo)
+      this.viewPhoto = photo;
   }
 
   itemAddSaved(itemName: string, itemQtd: number, itemUn: string){
@@ -188,6 +199,7 @@ export class CartListPage implements OnInit{
     let objEdit = this.lista[this.lista.findIndex(obj => obj.productId === productId)];
     this.editProductId = productId;
     this.editProduct = objEdit.name;
+    
     if(objEdit.unidade == 'gr')
       this.editPrice = objEdit.price * objEdit.qtd;
     else
@@ -209,21 +221,27 @@ export class CartListPage implements OnInit{
       name: this.editProduct,
       price: this.editPrice,
       qtd: this.editQtd,
-      unidade: this.editUn
+      unidade: this.editUn,
+      photo: this.photoUrl
     };
 
     Object.assign(this.lista[this.lista.findIndex(obj => obj.productId === this.editProductId)],obj)
 
-    this.cartListService.updateCartList(this.idList,this.lista).subscribe(
-      () => {
+    this.cartListService.updateCartList(this.idList,this.lista).subscribe({
+      next:() => {
+        this.alert.successPopUp("Produto Alterado com sucesso");
         this.setEditOpen(false);
         this.getAllList();
       },
-      (err) => {
+      error:(err) => {
+        this.alert.errorPopUp("Erro ao Alterar produto");
         console.log(err)
       },
-      () => this.refreshTotal()
-    )
+      complete:() => {
+        this.refreshTotal();
+        this.photoUrl = null;
+      }
+    })
   }
   
   saveAdd(){
@@ -245,35 +263,57 @@ export class CartListPage implements OnInit{
       price: this.addPrice,
       qtd: this.addQtd,
       unidade: this.addUn,
-      market: this.market
+      market: this.market,
+      photo: this.photoUrl
     }
 
     this.lista.splice(max, 0, obj)
     
-    this.cartListService.insertCartList(this.idList, this.lista).subscribe(
-        () => {
+    this.cartListService.insertCartList(this.idList, this.lista).subscribe({
+      next:() => {
         this.alert.successPopUp("Produto inserido com sucesso");
         this.getAllList();
         this.setAddOpen(false);
         this.resetAdd();
       },
-      (err) => {
+      error:(err) => {
         this.alert.errorPopUp("Erro ao inserir produto");
         this.lista.splice(max, 1)
         console.log(err)
       },
-      () => this.refreshTotal()
-    )
+      complete:() => this.refreshTotal()
+    })
   }
   
   private resetAdd() {
+    this.photoUrl = null;
     this.addProduct = null;
     this.addPrice = null;
     this.addQtd = null;
     this.addUn = null
   }
 
-  addPhotoToGallery() {
-    this.photo.takePicture();
+  tirarFoto() {
+    this.photoUrl = null;
+    this.photoService.takePicture().subscribe(
+      url => {
+        if(url){
+          fetch(url)
+            .then(response => response.blob())
+            .then(blob => {
+              const reader = new FileReader();
+              reader.onload = () => {
+                const base64Data = reader.result as string; // Converter o resultado para uma string
+                this.photoUrl = base64Data;                
+              }
+              reader.readAsDataURL(blob);
+            })
+        }
+        else {
+          console.error('URL da foto é undefined.');
+        }
+      },
+      error => console.error(error)
+    );
   }
 }

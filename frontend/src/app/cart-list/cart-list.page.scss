@@ -29,6 +29,14 @@
     justify-content: center;
 }
 
+.center-img{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    height: 100%;
+}
+
 .center-modal{
     flex-direction: column;
     align-content: center;
@@ -79,6 +87,18 @@
 .flex-end{
     position: fixed;
     bottom: 0px;
+}
+
+ion-content{
+    height: 100%;
+}
+
+img {
+    border-radius: 8px;
+    max-width: 95%;
+    max-height: 95%;
+    width: auto; /* Ajusta a largura automaticamente para manter a proporção da imagem */
+    height: auto; 
 }
 
 ion-icon{

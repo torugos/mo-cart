@@ -118,17 +118,17 @@
       "products": [
         {
           "productId": 1,
-          "name": "Desodorante",
-          "price": 2.45,
-          "qtd": 6,
+          "name": "Amendoin",
+          "price": 3.2,
+          "qtd": 1,
           "unidade": "un",
           "market": "Carrefour"
         },
         {
           "productId": 2,
-          "name": "Pão Pullman",
-          "price": 1,
-          "qtd": 3,
+          "name": "Arroz",
+          "price": 9.89,
+          "qtd": 1,
           "unidade": "un",
           "market": "Carrefour"
         }
@@ -137,7 +137,7 @@
       "listName": "Lista do carrefour",
       "market": "Carrefour",
       "dateTime": "2023-09-28T18:46:10.035Z",
-      "total": 17.700000000000003
+      "total": 13.09
     },
     {
       "listName": "Lista do sonda",

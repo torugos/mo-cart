@@ -21,11 +21,14 @@
 
   <ion-grid style="width: 95%;" *ngIf="lista.length >= 1">
     <ion-row class="table-header table-row title-font">
-      <ion-col >Produto</ion-col>
-      <ion-col >Un/Kg</ion-col>
-      <ion-col size="2">Preço</ion-col>
-      <ion-col size="2" class="center">Quantidade</ion-col>
-      <ion-col size="2.5" class="center">Ações</ion-col>
+      <ion-col size-sm="3.2">Produto</ion-col>
+      <ion-col size-sm="1.7">Un/Kg</ion-col>
+      <ion-col size="2" class="center">Preço</ion-col>
+      <ion-col size="1.5" class="center">
+        <span class="text-view-sm">Qtd</span>
+        <span class="text-view-md">Quantidade</span>
+      </ion-col>
+      <ion-col size-sm="3.5" class="center">Ações</ion-col>
     </ion-row>
     
     <ion-row *ngFor="let item of lista" class="table-row mat-elevation-z8">
@@ -35,18 +38,24 @@
         </ion-item-options>
 
         <ion-item>
-          <ion-col>{{item.name}}</ion-col>
-          <ion-col>
+          <ion-col size-sm="3.2">{{item.name}}</ion-col>
+          <ion-col size-sm="1.7">
             <span *ngIf="item.unidade == 'un'">{{item.price | currency:'BRL'}}/un</span>
             <span *ngIf="item.unidade == 'gr'">{{item.price * 1000 | currency:'BRL'}}/Kg</span>
           </ion-col>
-          <ion-col size="2">
+          <ion-col size="2" class="center">
             <span *ngIf="item.unidade == 'un'">{{item.price * item.qtd | currency:'BRL'}}</span>
             <span *ngIf="item.unidade == 'gr'">{{item.price * item.qtd | currency:'BRL'}}</span>
           </ion-col>
-          <ion-col size-sm="2" class="center">{{item.qtd}}{{item.unidade}}</ion-col>
-          <ion-col size="2.5">
+          <ion-col size-sm="1.5" class="center">{{item.qtd}}{{item.unidade}}</ion-col>
+          <ion-col size-sm="3.5">
             <ion-buttons style="flex-flow: row;" class="center">
+              <ion-fab-button *ngIf="item.photo" color="medium" style="margin-right: 8px;" (click)="itemViewPhoto(item.photo)">
+                <ion-icon name="camera"></ion-icon>
+              </ion-fab-button>
+              <ion-fab-button *ngIf="!item.photo" color="medium" style="margin-right: 8px;" disabled>
+                <ion-icon src="../../assets/camera-off.svg" ></ion-icon>
+              </ion-fab-button>
               <ion-fab-button color="primary" style="margin-right: 8px;" (click)="plusOne(item.productId, item.qtd)"><ion-icon name="add-outline"></ion-icon></ion-fab-button>
               <ion-fab-button color="danger" (click)="minusOne(item.productId, item.qtd)"><ion-icon name="remove-outline"></ion-icon></ion-fab-button>  
             </ion-buttons>
@@ -89,7 +98,7 @@
     </ion-fab-button>
 
     <ion-fab-list side="top">
-      <ion-fab-button (click)="addPhotoToGallery()">
+      <ion-fab-button (click)="tirarFoto()">
         <ion-icon name="camera"></ion-icon>
       </ion-fab-button>
       <ion-fab-button (click)="setAddOpen(true)">
@@ -134,7 +143,7 @@
     
     <ion-content>
       <div class="center-modal mT4">
-        <input type="text" class="custom-input mT4" placeholder="Produto" [(ngModel)]="addProduct">
+        <input type="text" class="custom-input mT4" placeholder="Produto" [(ngModel)]="addProduct" maxlength="36">
         <input
           class="custom-input mT4"
           placeholder="Preço"
@@ -149,6 +158,16 @@
               <ion-select-option value="gr">Grama</ion-select-option>
             </ion-select>
           </ion-item>
+        </div>
+        <div class="center mT4" style="flex-direction: row;">
+          <ion-buttons slot="end">
+            <ion-fab-button (click)="tirarFoto()" style="margin-right: 8px;">
+              <ion-icon name="camera"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button *ngIf="photoUrl" color="success" style="pointer-events: none;">
+              <ion-icon name="checkmark-outline"></ion-icon>
+            </ion-fab-button>
+          </ion-buttons>
         </div>
       </div>
       <div class="center">
@@ -172,7 +191,7 @@
     
     <ion-content class="ion-content-center">
       <div class="center-modal">
-        <input type="text" class="custom-input mT4" placeholder="Produto" [(ngModel)]="editProduct">
+        <input type="text" class="custom-input mT4" placeholder="Produto" [(ngModel)]="editProduct" maxlength="36">
         <input
           type="text"
           class="custom-input mT4"
@@ -189,6 +208,16 @@
             </ion-select>
           </ion-item>
         </div>
+        <div class="center mT4" style="flex-direction: row;">
+          <ion-buttons slot="end">
+            <ion-fab-button (click)="tirarFoto()" style="margin-right: 8px;">
+              <ion-icon name="camera"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button *ngIf="photoUrl" color="success" style="pointer-events: none;">
+              <ion-icon name="checkmark-outline"></ion-icon>
+            </ion-fab-button>
+          </ion-buttons>
+        </div>
       </div>
       <div class="center">
         <ion-button shape="round" (click)="saveEdit()">Editar</ion-button>
@@ -197,7 +226,25 @@
   </ng-template>
 </ion-modal>
 
-
+<!-- Edit Modal -->
+<ion-modal [isOpen]="isPhotoModalOpen" [backdropDismiss]="false">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Foto</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="setPhotoOpen(false)">Fechar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    
+    <ion-content>
+      <div class="center-img" >
+        <img [src]="viewPhoto">
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
 
 <ion-footer>
   <ion-toolbar>

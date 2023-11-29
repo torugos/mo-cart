@@ -5,4 +5,5 @@ export interface Products {
     qtd: number;
     unidade: string;
     market: string;
+    photo: string | null;
 }
